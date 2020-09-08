@@ -52,50 +52,10 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
-<<<<<<< HEAD
-           'sslmode' => 'require',
-=======
-        ],
-
-        'mysql_ssl' => [
-            'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'strict' => true,
-            'engine' => null,
-            'sslmode' => 'require',
->>>>>>> d287e8b625c5d94cd810b4c26b0cf87ad5934562
-            'options'   => array(
-                PDO::MYSQL_ATTR_SSL_CA => '/var/www/'.env('DORCAS_HOST_API','api.dorcas.io').'/BaltimoreCyberTrustRoot.crt.pem',
-            ),
-        ],
-
-        'mysql_iam' => [
-            'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'database_name'),
-            'username' => env('DB_USERNAME', 'database_username'),
-            'password' => '',
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'strict' => false,
-            'engine' => null,
-            'aws_profile' => env('AWS_PROFILE',''),
-            'aws_credential_path' => env('AWS_CREDENTIAL_PATH','~/.aws/credentials'),
-            'aws_region' => env('AWS_REGION'),
-            'use_iam_auth' => env('DB_USE_IAM_AUTH', true),
-            'options' => array(
-                PDO::MYSQL_ATTR_SSL_CA    => env('RDS_CA_BUNDLE', '/var/www/'.env('DORCAS_HOST_API','api.dorcas.ng').'/BaltimoreCyberTrustRoot.crt.pem'),       
-            ),
+            'sslmode' => env('DB_SSLMODE', 'prefer'),
+            'options' => env('DB_SSLMODE')=="require" && extension_loaded('pdo_mysql') && !empty(env('MYSQL_ATTR_SSL_CA')) ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
         ],
     
         'mysql_staging' => [
