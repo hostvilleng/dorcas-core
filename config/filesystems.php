@@ -54,6 +54,9 @@ return [
             //'url' => 'https://s3.' . env('AWS_S3_REGION') . '.amazonaws.com/' . env('AWS_BUCKET'),
             'url' => env('APP_URL_STATIC'),
             'visibility' => 'public-read',
+            //'url' => 'https://s3.' . env('AWS_S3_REGION') . '.amazonaws.com/' . env('AWS_BUCKET'),
+            'url' => env('APP_URL_STATIC'),
+            'visibility' => 'public-read',
         ],
         'azure' => [
             'driver'    => 'azure',

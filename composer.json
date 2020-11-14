@@ -1,11 +1,14 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
-    "keywords": ["framework", "laravel", "lumen"],
+    "name": "dorcas/core-base",
+    "description": "Dorcas Core Platform",
+    "keywords": ["dorcas", "core", "api"],
     "license": "MIT",
     "type": "project",
     "repositories": [
-       
+        {
+            "type": "pear",
+            "url": "http://pear.php.net"
+        }
     ],
     "require": {
         "php": ">=7.0",

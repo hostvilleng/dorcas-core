@@ -1,0 +1,11 @@
+/vendor
+/.idea
+Homestead.json
+Homestead.yaml
+.env
+/ansible-automation
+/public/uploads
+.DS_Store
+/sftp-config.json
+bootstrap/app.php
+/config
