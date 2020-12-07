@@ -17,6 +17,27 @@ use Illuminate\Support\Facades\Route;
 Route::post('/auth/email', 'Auth\Authorize@authorizeUserByEmail');
 
 
+
+use Illuminate\Database\Connection;
+use Illuminate\Support\Facades\DB;
+use Laravel\Passport\ClientRepository;
+
+// Test database connection
+Route::get('/connection', function () {
+
+    try {
+        DB::connection()->getPdo();
+        echo "Connected successfully to: " . DB::connection()->getDatabaseName();
+    } catch (\Exception $e) {
+        die("Could not connect to the database. Please check your configuration. error:" . $e );
+    }
+
+    return view('welcome');
+});
+
+
+
+Route::post('setup','Setup\Init@setup');
 /**
  * Routes from the Auth namespace
  */

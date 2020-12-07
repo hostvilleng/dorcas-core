@@ -70,6 +70,7 @@ return [
 
         'redis' => [
             'driver' => 'redis',
+            'client' => 'predis',
             'connection' => 'default',
         ],
 

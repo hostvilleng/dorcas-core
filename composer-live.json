@@ -1,7 +1,11 @@
 {
     "name": "dorcas/core-base",
     "description": "Dorcas Core Platform",
-    "keywords": ["dorcas", "core", "api"],
+    "keywords": [
+        "dorcas",
+        "core",
+        "api"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -23,6 +27,7 @@
         "laravelista/lumen-vendor-publish": "^2.1",
         "illuminate/notifications": "^5.5",
         "barryvdh/laravel-snappy": "^0.4.1",
+        "h4cc/wkhtmltopdf-amd64": "^0.12.4",
         "fedeisas/laravel-mail-css-inliner": "^2.2",
         "yabacon/paystack-php": "^2.1",
         "league/flysystem": "^1.0",
@@ -36,8 +41,7 @@
         "illuminate/redis": "^5.2",
         "ext-json": "*",
         "academe/laravel-azure-file-storage-driver": "^0.3.0",
-        "matthewbdaly/laravel-azure-storage": "^1.3",
-        "orumad/lumen-config-cache": "^1.0"
+        "matthewbdaly/laravel-azure-storage": "^1.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -68,4 +72,4 @@
     "config": {
         "optimize-autoloader": true
     }
-}
+}f

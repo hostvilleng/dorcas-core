@@ -53,7 +53,7 @@ return [
             'strict' => true,
             'engine' => null,
             'sslmode' => env('DB_SSLMODE', 'prefer'),
-            'options' => env('DB_SSLMODE')=="require" && extension_loaded('pdo_mysql') && !empty(env('MYSQL_ATTR_SSL_CA')) ? array_filter([
+            'options' => env('DB_SSLMODE') == "require" && extension_loaded('pdo_mysql') && !empty(env('MYSQL_ATTR_SSL_CA')) ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],

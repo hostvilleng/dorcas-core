@@ -48,8 +48,11 @@ class Register extends Controller
             'is_vendor' => 'nullable|numeric',
             'trigger_event' => 'nullable|numeric|in:0,1'
         ]);
+        // $request->request->set('client_id',env('CLIENT_ID'));
+        // $request->request->set('client_secret',env('CLIENT_SECRET'));
         # validate the request
         validate_api_client($request);
+
         # validate the request
         if (strlen($request->input('lastname')) > 30) {
             $request->request->set('lastname', substr($request->input('lastname'), 0, 30));
@@ -73,11 +76,15 @@ class Register extends Controller
             'selling_online' => ['customers','ecommerce','sales'],
             'payroll' => ['people'],
             'finance' => ['finance'],
-            'all' => ['customers','people','finance','ecommerce','sales']
+             'all' => ['customers','people','finance','ecommerce','sales']
         ];
-        $feature_selected = $request->input('feature_select', "");
+        
+        $feature_selected = $request->input('feature_select');
+
         $feature_converted = !empty($feature_selected) ? $feature_modules[$feature_selected] : [];
+
         $module = array_merge($feature_converted,$base_modules);
+        
 
         #get the prefered module and feature
 
@@ -86,6 +93,7 @@ class Register extends Controller
         $company = null;
         $partner = null;
         # the models
+
         if ($request->has('partner')) {
             $partner = Partner::where(function ($query) use ($request) {
                                     $query->where('uuid', $request->partner)
@@ -132,7 +140,7 @@ class Register extends Controller
         });
         $triggerEvent = (bool) ($request->has('trigger_event') ? (int)  $request->input('trigger_event', 1) : 1);
         # get the event trigger status
-        if ($triggerEvent) {
+        if ($triggerEvent && $user) {
             event(new AccountRegistered($user, $company));
         }
         $transformer = new UserTransformer();

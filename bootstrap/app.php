@@ -1,9 +1,9 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 try {
-    (new Dotenv\Dotenv(__DIR__.'/../'))->load();
+    (new Dotenv\Dotenv(__DIR__ . '/../'))->load();
 } catch (Dotenv\Exception\InvalidPathException $e) {
     //
 }
@@ -20,8 +20,10 @@ try {
 */
 
 $app = new Laravel\Lumen\Application(
-    realpath(__DIR__.'/../')
+    realpath(__DIR__ . '/../')
 );
+
+
 
 $app->withFacades(true, [
     'Illuminate\Support\Facades\Notification' => 'Notification',
@@ -29,13 +31,23 @@ $app->withFacades(true, [
     \Illuminate\Support\Facades\Storage::class => 'Storage'
 ]);
 
-$app->withEloquent();
+$app->register(\Illuminate\Redis\RedisServiceProvider::class);
 
-$app->alias('mailer', \Illuminate\Contracts\Mail\Mailer::class);
-
-//
 $app->alias('cache', 'Illuminate\Cache\CacheManager');
 $app->alias('auth', 'Illuminate\Auth\AuthManager');
+
+// use Illuminate\Support\Facades\Cache;
+// use Illuminate\Support\Facades\Storage;
+// use Barryvdh\Snappy\Facades\SnappyPdf;
+// use Illuminate\Support\Facades\Notification;
+
+$app->withEloquent();
+
+
+
+
+//
+
 
 /*config(['database.redis'=>[
     'cluster' => env('REDIS_CLUSTER', false),
@@ -60,6 +72,7 @@ $app->configure('app');
 $app->configure('auth');
 $app->configure('bugsnag');
 $app->configure('database');
+// $app->configure('cache');
 $app->configure('dorcas-api');
 $app->configure('filesystems');
 $app->configure('invoicing');
@@ -147,10 +160,16 @@ $app->register(\Illuminate\Notifications\NotificationServiceProvider::class);
 $app->register(\Barryvdh\Snappy\LumenServiceProvider::class);
 $app->register(\Fedeisas\LaravelMailCssInliner\LaravelMailCssInlinerServiceProvider::class);
 $app->register(\Spatie\Permission\PermissionServiceProvider::class);
+$app->register(Orumad\ConfigCache\ServiceProviders\ConfigCacheServiceProvider::class);
 //$app->register(\Illuminate\Redis\RedisServiceProvider::class);
-$app->register(\Illuminate\Redis\RedisServiceProvider::class);
+
 //$app->register(\Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class);
 //$app->register(Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class);
+
+
+
+$app->alias('mailer', \Illuminate\Contracts\Mail\Mailer::class);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -166,7 +185,7 @@ $app->register(\Illuminate\Redis\RedisServiceProvider::class);
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
-    require __DIR__.'/../routes/web.php';
+    require __DIR__ . '/../routes/web.php';
 });
 
 return $app;
