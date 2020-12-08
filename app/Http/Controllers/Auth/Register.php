@@ -85,7 +85,6 @@ class Register extends Controller
 
         $module = array_merge($feature_converted,$base_modules);
         
-
         #get the prefered module and feature
 
 
@@ -112,10 +111,7 @@ class Register extends Controller
             $configurations = [];
             $configurations['module_preference'] = $module;
             $configurations['ui_setup'] = collect([$module])->all();
-
             $companyName = $request->has('company') ? $request->company : $request->firstname .' '.$request->lastname;
-
-
             $company = new Company([
                 'name' => $companyName,
                 'plan_id' => $plan->id,
@@ -125,6 +121,7 @@ class Register extends Controller
                 'prefix' => prefixGenerator()
             ]);
             $company->save();
+
             # save the company
             $user = $company->users()->create([
                 'firstname' => $request->input('firstname'),
@@ -138,6 +135,7 @@ class Register extends Controller
             ]);
             # we need to create the user
         });
+
         $triggerEvent = (bool) ($request->has('trigger_event') ? (int)  $request->input('trigger_event', 1) : 1);
         # get the event trigger status
         if ($triggerEvent && $user) {
