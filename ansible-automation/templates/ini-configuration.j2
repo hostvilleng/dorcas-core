@@ -1,7 +1,0 @@
-{% for component in config_section %}
-[{{ component.section }}]
-{% for setting in component.settings %}
-{{ setting.name }}={{ setting.value }}
-{% endfor %}
-
-{% endfor %}
