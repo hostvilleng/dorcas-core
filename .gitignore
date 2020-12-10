@@ -12,6 +12,7 @@ bootstrap/app.php
 BaltimoreCyberTrustRoot.crt.pem
 composer-live.json
 dorcas-api.yaml
+dorcas-api.yml
 dorcas-base.sql
 dorcas-update.sql
 dorcas.sql
