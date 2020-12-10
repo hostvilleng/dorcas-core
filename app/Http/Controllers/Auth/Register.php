@@ -135,9 +135,8 @@ class Register extends Controller
                 'partner_id' => empty($partner) ? null : $partner->id
             ]);
 
-            if($request->has('installer')){
+            if($request->input('installer') === true){
               $this->registerHubUser($company,$user);
-
             }
 
             # we need to create the user
