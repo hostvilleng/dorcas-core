@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use Laravel\Passport\ClientRepository;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Item;
@@ -133,8 +134,11 @@ class Register extends Controller
                 'is_vendor' => $request->has('is_vendor') ? 1 : 0,
                 'partner_id' => empty($partner) ? null : $partner->id
             ]);
+             $this->registerHubUser($company,$user);
+
             # we need to create the user
         });
+
 
         $triggerEvent = (bool) ($request->has('trigger_event') ? (int)  $request->input('trigger_event', 1) : 1);
         # get the event trigger status
@@ -147,8 +151,39 @@ class Register extends Controller
         return response()->json($fractal->createData($resource)->toArray());
     }
     
-    public function registerUser()
+    private function registerHubUser($data,$dorcasUser)
     {
-    
+      try {
+         $db = DB::connection('hub_mysql');
+         DB::transaction(function () use(&$data,$db,&$dorcasUser) {
+             $company = new Company;
+             $company->setConnection('hub_mysql');
+             $company =  $company->create([
+                'uuid' => $data->id,
+                'reg_number' => $data->registration,
+                'name' => $data->name,
+                'phone' => $data->phone,
+                'email' => $data->email,
+                'website' => $data->website
+              ]);
+              $db->table('users')->insert([
+                'uuid' => $dorcasUser->id,
+                'firstname' => $dorcasUser->firstname,
+                'lastname' => $dorcasUser->lastname,
+                'email' => $dorcasUser->email,
+                'password' => $dorcasUser->password,
+                'company_id' => $company->id,
+                'gender' => $dorcasUser->gender,
+                'photo_url' => $dorcasUser->photo,
+                'is_verified' => (int) $dorcasUser->is_verified
+              ]);
+
+            });
+        return true;
+
+      }
+      catch (\Exception $e){
+        throw  new \Exception($e->getMessage());
+      }
     }
 }
