@@ -6,17 +6,8 @@ WORKDIR /var/www/dorcas-business-core
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-
-# RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && \
-#  composer \
-# global require hirak/prestissimo --no-plugins --no-scripts
-
-#RUN phpdismod xdebug
-
 RUN docker-php-ext-install pdo pdo_mysql
 #RUN docker-php-ext-install pdo pdo_mysql mbstring bcmath xml ctype fileinfo json tokenizer curl
-
-##https://github.com/emcniece/docker-wordpress/blob/master/Dockerfile
 
 
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
@@ -32,13 +23,6 @@ COPY . /var/www/dorcas-business-core
 
 # Finish composer
 RUN composer dump-autoload --no-scripts --no-dev --optimize
-
-
-
-
-#COPY . /var/www/dorcas-business-core
-#RUN chown -R admin:admin /app
-#RUN chmod 755 /app
 
 
 RUN chown -R www-data:www-data /var/www/dorcas-business-core/storage
