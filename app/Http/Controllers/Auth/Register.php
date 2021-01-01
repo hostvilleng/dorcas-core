@@ -35,7 +35,7 @@ class Register extends Controller
             'client_id' => 'required|numeric',
             'client_secret' => 'required|string',
             'email' => 'required|email|max:80|unique:users,email',
-            'password' => 'required|min:3',
+            'password' => 'required|min:8',
             'firstname' => 'required|max:30',
             'lastname' => 'required|max:80',
             'company' => 'nullable|max:100',

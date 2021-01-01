@@ -41,6 +41,8 @@ $app->alias('auth', 'Illuminate\Auth\AuthManager');
 // use Barryvdh\Snappy\Facades\SnappyPdf;
 // use Illuminate\Support\Facades\Notification;
 
+
+
 $app->withEloquent();
 
 
