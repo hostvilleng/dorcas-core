@@ -34,6 +34,8 @@ RUN chown www-data:www-data /var/www/dorcas-business-core/storage/logs/lumen.log
 RUN chmod u=rwx,g=rw,o=rw /var/www/dorcas-business-core/storage/logs/lumen.log
 RUN chmod u=rwx,g=rx,o=x /var/www/dorcas-business-core/artisan
 
+RUN chmod 660 /var/www/dorcas-business-core/storage/oauth-public.key
+
 # RUN php artisan passport:install
 
 

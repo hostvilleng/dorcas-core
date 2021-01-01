@@ -214,6 +214,8 @@ class Domains extends Controller
     public function resolver(Request $request, Manager $fractal)
     {
         $id = $request->query('id');
+
+        dd($id);
         # the ID to be resolved
         if (empty($id)) {
             throw new \UnexpectedValueException('You did not pass the ID of the [sub]domain to be resolved.');

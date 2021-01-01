@@ -137,6 +137,9 @@ class Register extends Controller
 
             if($request->input('installer') === true){
               $this->registerHubUser($company,$user);
+
+              $domain = $request->input('domain'); //verify later
+              $this->registerBusinessDomain($company,$domain);
             }
 
             # we need to create the user
@@ -159,7 +162,7 @@ class Register extends Controller
       try {
          $db = DB::connection('hub_mysql');
          DB::transaction(function () use(&$data,$db,&$dorcasUser) {
-             $company = new Company;
+           $company = new Company;
              $company->setConnection('hub_mysql');
              $company =  $company->create([
                 'uuid' => $data->id,
@@ -182,6 +185,7 @@ class Register extends Controller
               ]);
 
             });
+
         return true;
 
       }
@@ -189,4 +193,23 @@ class Register extends Controller
         throw  new \Exception($e->getMessage());
       }
     }
+
+    public function registerBusinessDomain($company,$domain)
+    {
+      try {
+        //$paginator = \App\Models\Company::when
+        //$domain = $company->domains()->where('uuid', $request->domain_id)->first();
+        $field = $company->domainIssuances()->create([
+            'prefix' => $domain,
+            'domain_id' => null
+        ]);
+        //$sdk->createDomainResource()->addBodyParam('prefix', $request->domain)->send('post',['issuances']);
+
+
+      }
+      catch (\Exception $e){
+        throw  new \Exception($e->getMessage());
+      }
+    }
+
 }
