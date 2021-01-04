@@ -10,18 +10,17 @@ class CreateProfessionalServiceRequestsTable extends Migration
     {
         Schema::create('professional_service_requests', function (Blueprint $table) {
 
-		$table->bigIncrements('id')->unsigned();
-		$table->char('uuid',50);
-		$table->integer('company_id',)->unsigned();
-		$table->bigInteger('service_id',)->unsigned();
-		$table->text('message');
-		$table->string('attachment_url',600)->nullable()->default('NULL');
-		$table->tinyInteger('is_read',)->default('0');
-		$table->enum('status',['accepted','rejected','pending'])->default('pending');
-		$table->timestamp('updated_at')->nullable()->default('NULL');
-		$table->timestamp('created_at')->default('CURRENT_TIMESTAMP');
-		$table->primary('id');
-		$table->foreign('company_id')->references('id')->on('companies');		$table->foreign('service_id')->references('id')->on('professional_services');
+			$table->integer('id')->primary()->unsigned();
+			$table->char('uuid',50);
+			$table->integer('company_id')->unsigned();
+			$table->integer('service_id')->unsigned();
+			$table->text('message');
+			$table->string('attachment_url',600)->nullable();
+			$table->tinyInteger('is_read')->default(0);
+			$table->enum('status',['accepted','rejected','pending'])->default('pending');
+			$table->timestamps();
+			$table->foreign('company_id')->references('id')->on('companies');		
+			$table->foreign('service_id')->references('id')->on('professional_services');
         });
     }
 

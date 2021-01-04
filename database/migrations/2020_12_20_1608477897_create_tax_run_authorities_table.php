@@ -10,14 +10,12 @@ class CreateTaxRunAuthoritiesTable extends Migration
     {
         Schema::create('tax_run_authorities', function (Blueprint $table) {
 
-		$table->increments(id)->unsigned();
-		$table->bigInteger('run_id',)->unsigned();
-		$table->bigInteger('authority_id',)->unsigned();
+		$table->integer('id')->primary()->unsigned();
+		$table->bigInteger('run_id')->unsigned();
+		$table->bigInteger('authority_id')->unsigned();
 		$table->string('amount');
 		$table->string('status')->default('tax run completed');
-		$table->timestamp('created_at')->nullable()->default('NULL');
-		$table->timestamp('updated_at')->nullable()->default('NULL');
-		$table->primary('id');
+		$table->timestamps();
 
         });
     }

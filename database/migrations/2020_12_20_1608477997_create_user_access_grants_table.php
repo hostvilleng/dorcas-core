@@ -10,17 +10,15 @@ class CreateUserAccessGrantsTable extends Migration
     {
         Schema::create('user_access_grants', function (Blueprint $table) {
 
-		$table->bigIncrements('id')->unsigned();
+		$table->integer('id')->primary()->unsigned();
 		$table->char('uuid',36);
-		$table->integer('user_id',)->unsigned();
-		$table->integer('company_id',)->unsigned();
+		$table->integer('user_id')->unsigned();
+		$table->integer('company_id')->unsigned();
 		$table->text('access_token');
 		$table->enum('status',['pending','accepted','rejected'])->default('pending');
 		$table->text('extra_json');
-		$table->timestamp('status_updated_at')->nullable()->default('NULL');
-		$table->timestamp('created_at')->nullable()->default('NULL');
-		$table->timestamp('updated_at')->nullable()->default('NULL');
-		$table->primary('id');
+		$table->timestamp('status_updated_at')->nullable();
+		$table->timestamps();
 
         });
     }

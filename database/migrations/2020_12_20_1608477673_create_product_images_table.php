@@ -10,13 +10,11 @@ class CreateProductImagesTable extends Migration
     {
         Schema::create('product_images', function (Blueprint $table) {
 
-		$table->bigIncrements('id')->unsigned();
+		$table->integer('id')->primary()->unsigned();
 		$table->char('uuid',50);
-		$table->bigInteger('product_id',)->unsigned();
+		$table->integer('product_id')->unsigned();
 		$table->string('url',300);
-		$table->timestamp('updated_at')->nullable()->default('NULL');
-		$table->timestamp('created_at')->default('CURRENT_TIMESTAMP');
-		$table->primary('id');
+		$table->timestamps();
 		$table->foreign('product_id')->references('id')->on('products');
         });
     }

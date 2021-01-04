@@ -10,20 +10,18 @@ class CreateTaxElementsTable extends Migration
     {
         Schema::create('tax_elements', function (Blueprint $table) {
 
-		$table->increments(id)->unsigned();
-		$table->integer('tax_authority_id',)->unsigned();
+		$table->integer('id')->primary()->unsigned();
+		$table->integer('tax_authority_id')->unsigned();
 		$table->char('uuid',36);
 		$table->string('element_name');
 		$table->enum('element_type',['percentage','fixed']);
-		$table->tinyInteger('isActive',1)->default('1');
+		$table->tinyInteger('isActive')->default(1);
 		$table->enum('frequency',['yearly','monthly']);
 		$table->json('type_data');
-		$table->timestamp('created_at')->nullable()->default('NULL');
-		$table->timestamp('updated_at')->nullable()->default('NULL');
+		$table->timestamps();
 		;
-		$table->datetime('frequency_year')->nullable()->default('NULL');
-		$table->integer('frequency_month',)->nullable()->default('NULL');
-		$table->primary('id');
+		$table->datetime('frequency_year')->nullable();
+		$table->integer('frequency_month',)->nullable();
 		$table->foreign('tax_authority_id')->references('id')->on('tax_authorities');
         });
     }
