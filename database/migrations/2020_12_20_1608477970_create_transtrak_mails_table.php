@@ -10,7 +10,7 @@ class CreateTranstrakMailsTable extends Migration
     {
         Schema::create('transtrak_mails', function (Blueprint $table) {
 
-		$table->bigInteger('company_id',)->unsigned();
+		$table->integer('company_id')->unsigned();
 		$table->string('transtrak_mail',45);
 
         });

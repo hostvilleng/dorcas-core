@@ -10,14 +10,12 @@ class CreateProductPricesTable extends Migration
     {
         Schema::create('product_prices', function (Blueprint $table) {
 
-		$table->bigIncrements('id')->unsigned();
+		$table->integer('id')->primary()->unsigned();
 		$table->char('uuid',50);
-		$table->bigInteger('product_id',)->unsigned();
+		$table->integer('product_id')->unsigned();
 		$table->char('currency',3);
-		$table->decimal('unit_price',10,2)->default('0.00');
-		$table->timestamp('updated_at')->nullable()->default('NULL');
-		$table->timestamp('created_at')->default('CURRENT_TIMESTAMP');
-		$table->primary('id');
+		$table->decimal('unit_price',10,2)->default(0.00);
+		$table->timestamps();
 		$table->foreign('product_id')->references('id')->on('products');
         });
     }

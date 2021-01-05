@@ -10,13 +10,11 @@ class CreatePermissionsTable extends Migration
     {
         Schema::create('permissions', function (Blueprint $table) {
 
-		$table->increments(id)->unsigned();
+		$table->integer('id')->primary()->unsigned();
 		$table->char('uuid',36);
 		$table->string('name');
 		$table->string('guard_name');
-		$table->timestamp('created_at')->nullable()->default('NULL');
-		$table->timestamp('updated_at')->nullable()->default('NULL');
-		$table->primary('id');
+		$table->timestamps();
 
         });
     }

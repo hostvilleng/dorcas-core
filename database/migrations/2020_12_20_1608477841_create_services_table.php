@@ -10,17 +10,15 @@ class CreateServicesTable extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
 
-		$table->increments(id)->unsigned();
+		$table->integer('id')->primary()->unsigned();
 		$table->char('uuid',50);
 		$table->char('name',50);
 		$table->char('display_name',255);
 		$table->text('description');
-		$table->string('icon',400)->nullable()->default('NULL');
-		$table->tinyInteger('is_paid',1)->default('0');
-		$table->timestamp('deleted_at')->nullable()->default('NULL');
-		$table->timestamp('updated_at')->nullable()->default('NULL');
-		$table->timestamp('created_at')->default('CURRENT_TIMESTAMP');
-		$table->primary('id');
+		$table->string('icon',400)->nullable();
+		$table->tinyInteger('is_paid')->default(0);
+		$table->timestamp('deleted_at')->nullable();
+		$table->timestamps();
 
         });
     }

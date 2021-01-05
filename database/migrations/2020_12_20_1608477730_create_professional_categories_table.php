@@ -10,14 +10,12 @@ class CreateProfessionalCategoriesTable extends Migration
     {
         Schema::create('professional_categories', function (Blueprint $table) {
 
-		$table->increments(id)->unsigned();
+		$table->integer('id')->primary()->unsigned();
 		$table->char('uuid',50);
-		$table->integer('parent_id',)->unsigned()->nullable()->default('NULL');
+		$table->integer('parent_id')->unsigned()->nullable();
 		$table->char('name',80);
-		$table->timestamp('updated_at')->nullable()->default('NULL');
-		$table->timestamp('created_at')->default('CURRENT_TIMESTAMP');
-		$table->primary('id');
-		$table->foreign('parent_id')->references('id')->on('professional_categories');
+		$table->timestamps();
+		// $table->foreign('parent_id')->references('id')->on('professional_categories');
         });
     }
 

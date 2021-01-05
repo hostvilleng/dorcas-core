@@ -10,15 +10,13 @@ class CreatePayrollRunEmployeesTable extends Migration
     {
         Schema::create('payroll_run_employees', function (Blueprint $table) {
 
-		$table->increments(id)->unsigned();
-		$table->integer('employee_id',)->unsigned();
-		$table->integer('run_id',)->unsigned()->nullable()->default('NULL');
+		$table->integer('id')->primary()->unsigned();
+		$table->integer('employee_id')->unsigned();
+		$table->integer('run_id')->unsigned()->nullable();
 		$table->string('amount');
-		$table->timestamp('created_at')->nullable()->default('NULL');
-		$table->timestamp('updated_at')->nullable()->default('NULL');
-		$table->string('paygroup_ids',45)->nullable()->default('NULL');
-		$table->json('invoice_data')->nullable()->default('NULL');
-		$table->primary('id');
+		$table->timestamps();
+		$table->string('paygroup_ids',45)->nullable();
+		$table->json('invoice_data')->nullable();
 		$table->foreign('run_id')->references('id')->on('payroll_runs');
         });
     }

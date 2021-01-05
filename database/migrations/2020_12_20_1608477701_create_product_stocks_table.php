@@ -10,14 +10,12 @@ class CreateProductStocksTable extends Migration
     {
         Schema::create('product_stocks', function (Blueprint $table) {
 
-		$table->bigIncrements('id')->unsigned();
-		$table->bigInteger('product_id',)->unsigned();
+		$table->integer('id')->primary()->unsigned();
+		$table->integer('product_id')->unsigned();
 		$table->char('action',20)->default('add');
-		$table->integer('quantity',)->unsigned();
-		$table->string('comment',300)->nullable()->default('NULL');
-		$table->timestamp('updated_at')->nullable()->default('NULL');
-		$table->timestamp('created_at')->default('CURRENT_TIMESTAMP');
-		$table->primary('id');
+		$table->integer('quantity')->unsigned();
+		$table->string('comment',300)->nullable();
+		$table->timestamps();
 		$table->foreign('product_id')->references('id')->on('products');
         });
     }

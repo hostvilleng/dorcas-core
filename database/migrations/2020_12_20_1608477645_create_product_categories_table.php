@@ -10,15 +10,13 @@ class CreateProductCategoriesTable extends Migration
     {
         Schema::create('product_categories', function (Blueprint $table) {
 
-		$table->increments(id)->unsigned();
+		$table->integer('id')->primary()->unsigned();
 		$table->char('uuid',50);
-		$table->integer('company_id',)->unsigned();
+		$table->integer('company_id')->unsigned();
 		$table->char('name',80);
 		$table->char('slug',80);
 		$table->text('description');
-		$table->timestamp('updated_at')->nullable()->default('NULL');
-		$table->timestamp('created_at')->default('CURRENT_TIMESTAMP');
-		$table->primary('id');
+		$table->timestamps();
 		$table->foreign('company_id')->references('id')->on('companies');
         });
     }

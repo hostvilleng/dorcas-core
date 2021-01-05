@@ -10,10 +10,10 @@ class CreateProfessionalCategoryServicesTable extends Migration
     {
         Schema::create('professional_category_services', function (Blueprint $table) {
 
-		$table->integer('professional_category_id',)->unsigned();
-		$table->bigInteger('professional_service_id',)->unsigned();
-		$table->primary(['professional_category_id','professional_service_id']);
-		$table->foreign('professional_category_id')->references('id')->on('professional_categories');		$table->foreign('professional_service_id')->references('id')->on('professional_services');
+		$table->integer('professional_category_id')->primary()->unsigned();
+		$table->integer('professional_service_id')->unsigned();
+        $table->foreign('professional_category_id')->references('id')->on('professional_categories');		
+        $table->foreign('professional_service_id')->references('id')->on('professional_services');
         });
     }
 

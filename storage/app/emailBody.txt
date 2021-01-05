@@ -1,0 +1,60 @@
+Return-Path: <ayotomideaina@gmail.com>
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by inbound-smtp.eu-west-1.amazonaws.com with SMTP id 2557rsgrp14lstcgvv085ao1uc95v97crofovc81
+ for tomide@transtrak.dorcas.io;
+ Mon, 13 Apr 2020 17:08:03 +0000 (UTC)
+X-SES-Spam-Verdict: PASS
+X-SES-Virus-Verdict: PASS
+Received-SPF: pass (spfCheck: domain of _spf.google.com designates 209.85.167.52 as permitted sender) client-ip=209.85.167.52; envelope-from=ayotomideaina@gmail.com; helo=mail-lf1-f52.google.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.google.com designates 209.85.167.52 as permitted sender) client-ip=209.85.167.52; envelope-from=ayotomideaina@gmail.com; helo=mail-lf1-f52.google.com;
+ dkim=pass header.i=@gmail.com;
+ dmarc=pass header.from=gmail.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFIZEgvTHlZNkdjNWtxR1ZobVZJb2I4OXRSRWpMSWZiQk1KNmsrNERjbEN3TnlTa211S2k3bVBvQ3lZR1Z2SXZwak9HUlJrcVEyZGExb1ExQ0hxWktUYWFDYWxLVVFLRDZhKzVmb3B2N0ZSTC9OOGZ6Y2RBSkRPcjlDNFZYek5UVjJiSi9sWnp6M3NDT0QxKzZ3aEx0S04rTEhOQnpyejlhVmw5NDVUckR4S0pQU1FFZ1BvV281TzV6aEFoekpYRG05RlNHT28walN2M0tXbmVoZGE1NnpqbXVscHBndzlvNENEK29jVkxLNWwrU2pIV0R2Z2NOMldhNjI2bVJjeHo0ZmJrVmdJbHFOSFVSL1dOSGUrU0gzZGFSQjR3NnRoUitQVFRqOGlNVnkyMmc9PQ==
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=o9ux+yoT/yu9JRLN2OYbpT7eYHDAZOzTeWC5qExs95FenJVUwyhT8WV1lx7wiJaoBIiF7a3ZxE5zndTIXhIupg5/fzD8prIWz6xVDHsQBVFZLt+My2FttdiaA9NGB/5dBoXwJQpYBsaK0eZzdHljdiFFIm6zui0/iSZDDXHPDIk=; c=relaxed/simple; s=shh3fegwg5fppqsuzphvschd53n6ihuv; d=amazonses.com; t=1586797683; v=1; bh=oQQ7Igbwd0JWGfhchvSwsAapLULhxdqCvIMnLnMZqFk=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-lf1-f52.google.com with SMTP id r17so7113786lff.2
+        for <tomide@transtrak.dorcas.io>; Mon, 13 Apr 2020 10:08:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=oQQ7Igbwd0JWGfhchvSwsAapLULhxdqCvIMnLnMZqFk=;
+        b=tunIiXt/ACK/0GrVkHFXc5RQGiQ4+yjtQhq69eZaSwXGAmx83D9tYk6GpDpgfO7UCF
+         D3UvarK1Pe0HsteHbTGDlyNwKi3RYwqurRnncZ7lc3y5t24CDJ3awl+dQICNdwoELzGY
+         /qhvnNFdOADOvgFju/L8yeRqrhCj3zmnIN937TL5Q0LDgy94MAsiq68xEbcCFHyPDzOq
+         abWeGM4TSvLFJSyYhh+zVTLW5h7/zv74vwigFTRzvlw0njl4+rJHlxqc5ZEDS4sMLEJu
+         zJhcQ9+ZFEzyoo9oqXHH+JKEYarqIUCxHwN8EV0tGwWHw8gvkAJ87n7p9Baj+N5n+0m6
+         cEYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=oQQ7Igbwd0JWGfhchvSwsAapLULhxdqCvIMnLnMZqFk=;
+        b=CfzIopax1nq31J92+WbW4TaQO1e6pv8LddcpEArWZ216FFUtxXGLFaWEirBeyusjzM
+         49KXO957RdNuKVDBP+zYbuHjrKDbgOFSePhZR96LTKuzYVyVe5ig7FDYPuSBeNxRlQyf
+         +BwaBLFYB+2D+sjal0nM/KHjKawvsPkGudiFDUdiZS7PN3i64WBWJ8Wk5PVsaKQTYyOi
+         rOtyBQVCWnhc0grMvtnhVz/pamWZxmrxIdIRHUrcrhduelcCKtCZVks/jZyR6+igCQJ7
+         SuTLzEb32kjHMru0+1WJjcG26B1dnFzChC40RzKBtzhWwAL8TB3HZZVVAW3CnKrjT1NL
+         DBaA==
+X-Gm-Message-State: AGi0PuaIb7+BJ+er3oHt6j69Juw9ntrBe9ZTG2xLd37HMOgY167oqubz
+	quCsIVHVtK3m+Cvi0wRaVIbhYZjSQihD3q1bplyZE+Ml
+X-Google-Smtp-Source: APiQypIh8tgwN3M9DrxY5kFzQbKDGyxYdhylXwDDDVQShty5nMrZZcAZvIZQ1p4NEBB5P/cGh3dbYkLtiy5g4kZDfaM=
+X-Received: by 2002:a05:6512:318a:: with SMTP id i10mr10938150lfe.96.1586797682471;
+ Mon, 13 Apr 2020 10:08:02 -0700 (PDT)
+MIME-Version: 1.0
+From: Aina Ayotomide <ayotomideaina@gmail.com>
+Date: Mon, 13 Apr 2020 18:07:50 +0100
+Message-ID: <CAO8iysYxqm_Le_3knAcr8Vh7C0SW8GA7Jh8pKWymEbM-VUYVXg@mail.gmail.com>
+Subject: This Mail Signifies That everything works fine
+To: tomide@transtrak.dorcas.io
+Content-Type: multipart/alternative; boundary="00000000000031b7f905a32f2021"
+
+--00000000000031b7f905a32f2021
+Content-Type: text/plain; charset="UTF-8"
+
+Hello World
+
+--00000000000031b7f905a32f2021
+Content-Type: text/html; charset="UTF-8"
+
+<div dir="ltr">Hello World</div>
+
+--00000000000031b7f905a32f2021--

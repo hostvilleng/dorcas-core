@@ -58,6 +58,25 @@ return [
             ]) : [],
         ],
 
+        'mysql_test' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE_TEST', 'dorcas_core_test'),
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', 'secret'),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
+            'engine' => null,
+            'sslmode' => env('DB_SSLMODE', 'prefer'),
+            'options' => env('DB_SSLMODE') == "require" && extension_loaded('pdo_mysql') && !empty(env('MYSQL_ATTR_SSL_CA')) ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+
         'hub_mysql' => [
             'driver' => 'mysql',
             'host' => env('DB_HUB_HOST', '127.0.0.1'),
