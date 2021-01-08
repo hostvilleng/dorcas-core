@@ -10,7 +10,7 @@ class CreateLeaveGroupsTable extends Migration
     {
         Schema::create('leave_groups', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->integer('group_id')->unsigned();
 		$table->enum('group_type',['team','department']);
 		$table->string('duration_days');

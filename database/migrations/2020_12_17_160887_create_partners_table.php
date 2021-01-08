@@ -10,7 +10,7 @@ class CreatePartnersTable extends Migration
     {
         Schema::create('partners', function (Blueprint $table) {
 
-		$table->integer('id')->primary();
+		$table->increments('id');
 		$table->char('uuid',50);
 		$table->char('name',80);
 		$table->char('slug',50);

@@ -10,7 +10,7 @@ class CreateBankAccountsTable extends Migration
     {
         Schema::create('bank_accounts', function (Blueprint $table) {
 
-			$table->integer('id')->primary()->unsigned();
+			$table->increments('id');
 			$table->char('uuid',50);
 			$table->char('bankable_type',80);
 			$table->bigInteger('bankable_id')->unsigned();

@@ -10,7 +10,7 @@ class CreateDomainIssuancesTable extends Migration
     {
         Schema::create('domain_issuances', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->char('uuid',50);
 		$table->integer('domain_id')->unsigned()->nullable();
 		$table->char('domainable_type',50)->nullable();

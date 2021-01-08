@@ -10,7 +10,7 @@ class CreatePlansTable extends Migration
     {
         Schema::create('plans', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->char('uuid',50);
 		$table->char('name',80);
 		$table->decimal('price_monthly',10,2)->default('0.00');

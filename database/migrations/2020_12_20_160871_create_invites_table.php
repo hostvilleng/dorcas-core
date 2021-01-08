@@ -10,7 +10,7 @@ class CreateInvitesTable extends Migration
     {
         Schema::create('invites', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->char('uuid',36);
 		$table->integer('inviter_id')->unsigned();
 		$table->char('inviter_type',50);

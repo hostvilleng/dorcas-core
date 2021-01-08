@@ -10,7 +10,7 @@ class CreateMliResourcesTable extends Migration
     {
         Schema::create('mli_resources', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->integer('partner_id')->nullable();
 		$table->string('resource_uuid',40)->nullable();
 		$table->tinyInteger('resource_category')->nullable();

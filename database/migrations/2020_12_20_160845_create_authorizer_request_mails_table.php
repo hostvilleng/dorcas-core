@@ -10,7 +10,7 @@ class CreateAuthorizerRequestMailsTable extends Migration
     {
         Schema::create('authorizer_request_mails', function (Blueprint $table) {
 
-            $table->integer('id')->primary()->unsigned();
+            $table->increments('id');
             $table->bigInteger('authorizer_id')->unsigned();
             $table->bigInteger('request_id')->unsigned();
             $table->tinyInteger('mail_action')->default(0);

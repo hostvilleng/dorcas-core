@@ -10,7 +10,7 @@ class CreateApplicationsTable extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->char('uuid',36);
 		$table->integer('user_id')->unsigned();
 		$table->integer('oauth_client_id')->unsigned();

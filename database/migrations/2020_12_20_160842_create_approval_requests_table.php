@@ -10,7 +10,7 @@ class CreateApprovalRequestsTable extends Migration
     {
         Schema::create('approval_requests', function (Blueprint $table) {
 
-			$table->integer('id')->primary()->unsigned();
+			$table->increments('id');
 			$table->char('uuid',36);
 			$table->integer('approval_id')->unsigned();
 			$table->string('approval_comments')->nullable();

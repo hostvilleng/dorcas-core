@@ -10,7 +10,7 @@ class CreateCustomerNotesTable extends Migration
     {
         Schema::create('customer_notes', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->char('uuid',50);
 		$table->integer('customer_id')->unsigned();
 		$table->text('message');

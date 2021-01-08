@@ -10,7 +10,7 @@ class CreateApplicationCategoriesTable extends Migration
     {
         Schema::create('application_categories', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->char('uuid',36);
 		$table->char('slug',80);
 		$table->char('name',80);

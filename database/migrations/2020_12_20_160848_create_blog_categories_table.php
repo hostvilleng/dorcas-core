@@ -10,7 +10,7 @@ class CreateBlogCategoriesTable extends Migration
     {
         Schema::create('blog_categories', function (Blueprint $table) {
 
-            $table->integer('id')->primary()->unsigned();
+            $table->increments('id');
             $table->char('uuid',36);
             $table->char('slug',80);
             $table->integer('company_id')->unsigned();
@@ -18,7 +18,7 @@ class CreateBlogCategoriesTable extends Migration
             $table->char('name',80);
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies');	
-            // $table->foreign('parent_id')->references('id')->on('blog_categories');
+            $table->foreign('parent_id')->references('id')->on('blog_categories');
 
         });
     }

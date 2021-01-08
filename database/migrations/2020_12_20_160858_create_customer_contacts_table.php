@@ -13,7 +13,7 @@ class CreateCustomerContactsTable extends Migration
 		$table->integer('contact_field_id')->unsigned();
 		$table->integer('customer_id')->unsigned();
 		$table->char('value',100);
-		// $table->primary(['contact_field_id','customer_id']);
+		$table->primary(['contact_field_id','customer_id']);
         $table->foreign('contact_field_id')->references('id')->on('contact_fields');
         $table->foreign('customer_id')->references('id')->on('customers');
         });

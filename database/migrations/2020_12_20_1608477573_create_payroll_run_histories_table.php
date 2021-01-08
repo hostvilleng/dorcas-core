@@ -10,7 +10,7 @@ class CreatePayrollRunHistoriesTable extends Migration
     {
         Schema::create('payroll_run_histories', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->integer('employee_id')->unsigned();
 		$table->integer('run_id')->unsigned();
 		$table->enum('status',['draft','approved','processed']);

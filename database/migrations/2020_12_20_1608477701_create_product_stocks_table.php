@@ -10,7 +10,7 @@ class CreateProductStocksTable extends Migration
     {
         Schema::create('product_stocks', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->integer('product_id')->unsigned();
 		$table->char('action',20)->default('add');
 		$table->integer('quantity')->unsigned();

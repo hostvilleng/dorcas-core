@@ -10,7 +10,7 @@ class CreatePayrollPaygroupTable extends Migration
     {
         Schema::create('payroll_paygroup', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->integer('company_id')->unsigned();
 		$table->char('uuid',36);
 		$table->string('group_name');

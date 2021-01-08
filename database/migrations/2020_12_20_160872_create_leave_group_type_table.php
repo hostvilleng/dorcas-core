@@ -10,7 +10,7 @@ class CreateLeaveGroupTypeTable extends Migration
     {
         Schema::create('leave_group_type', function (Blueprint $table) {
 
-		$table->integer('id')->primary();
+		$table->increments('id');
 		$table->string('leave_type_id',45)->nullable();
 		$table->string('leave_group_id',45)->nullable();
 		$table->timestamps();

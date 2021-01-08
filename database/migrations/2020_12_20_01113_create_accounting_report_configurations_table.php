@@ -10,7 +10,7 @@ class CreateAccountingReportConfigurationsTable extends Migration
     {
         Schema::create('accounting_report_configurations', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->char('uuid',50);
 		$table->integer('company_id')->unsigned();
 		$table->char('report_name',80);

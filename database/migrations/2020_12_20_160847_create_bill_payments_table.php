@@ -10,7 +10,7 @@ class CreateBillPaymentsTable extends Migration
     {
         Schema::create('bill_payments', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->integer('company_id')->unsigned();
 		$table->integer('plan_id')->unsigned();
 		$table->char('reference',50);
