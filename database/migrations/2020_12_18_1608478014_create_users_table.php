@@ -12,7 +12,7 @@ class CreateUsersTable extends Migration
 
 		$table->increments('id');
 		$table->char('uuid',80);
-		$table->integer('company_id',)->unsigned();
+		$table->integer('company_id')->unsigned();
 		$table->char('firstname',30);
 		$table->char('lastname',30);
 		$table->string('email',80);

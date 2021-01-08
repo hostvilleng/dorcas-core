@@ -1,51 +1,39 @@
 <?php
-
+use Laravel\Lumen\Testing\DatabaseMigrations;
 class RegistrationTest extends TestCase
 {
-    // use RefreshDatabase;
+  use DatabaseMigrations;
 
-    // public function testExample()
-    // {
-    //     // $this->assertTrue(true);
-    // }
+     public function testing_user_signup()
+     {
 
-    public function register_user()
-    {
-        // $this->assertTrue(true);
-    }
-
-    // public function testing_user_signup()
-    // {
-    //     $user = factory('App\Models\User')->create();
-
-    //     $response = $this->post('/register', [
-    //         'email' => $user->email.'32',
-    //         'password' => 'password',
-    //         'feature_select' => 'all',
-    //         'lastname' => $user->lastname,
-    //         'firstname' => $user->firstname,
-    //         'phone' => $user->phone,
-    //         'client_id' => 49,
-    //         'client_secret' => '6PDB2VojSB4xmNcJFyGUU3RSTvwBnA9oh1KW9681'
-    //     ]);
-
-    //     // dd($response);
-    //     $response->seeJson();
-    // }
+         $user = factory('App\Models\User')->create();
+         $response = $this->post('/register', [
+             'email' => $user->email.'32',
+             'password' => 'password',
+             'feature_select' => 'all',
+             'lastname' => $user->lastname,
+             'firstname' => $user->firstname,
+             'phone' => $user->phone,
+             'client_id' => env('CLIENT_ID'),
+             'client_secret' => env('CLIENT_SECRET')
+         ]);
+       $response->assertResponseOk(200);
+     }
 
     public function test_user_login()
     {
-        
-        // $user = factory('App\Models\User')->create();
+
 
         $response = $this->post('/oauth/token',[
-            'username' => 'armstrong.alva@yahoo.com32',
-            'password' => 'password',
-            'client_id' => 49,
-            'client_secret' => '6PDB2VojSB4xmNcJFyGUU3RSTvwBnA9oh1KW9681',
+            'username' => env('TEST_LOGIN_EMAIL'),
+            'password' =>  env('TEST_LOGIN_PASSWORD'),
+            'client_id' => env('CLIENT_ID'),
+            'client_secret' => env('CLIENT_SECRET'),
             'grant_type' => 'password'
         ]);
-        dd($response);
+          $response->assertResponseOk(200);
+//          $this->assertEquals(env('TEST_LOGIN_EMAIL'),$this->response->getOriginalContent()['data']['email']);
     }
     
 }

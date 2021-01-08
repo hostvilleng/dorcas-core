@@ -17,6 +17,7 @@ class CreateJobsTable extends Migration
             $table->integer('reserved_at')->unsigned()->nullable();
             $table->integer('available_at')->unsigned();
             $table->integer('created_at')->unsigned();
+            $table->longText('payload')->nullable();
         });
     }
 
