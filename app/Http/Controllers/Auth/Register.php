@@ -51,6 +51,12 @@ class Register extends Controller
         ]);
         // $request->request->set('client_id',env('CLIENT_ID'));
         // $request->request->set('client_secret',env('CLIENT_SECRET'));
+
+        if($request->input('installer') === true || $request->input('installer') === "true") {
+          $this->validate($request, ['domain' => 'required|max:100']);
+        }
+
+
         # validate the request
         validate_api_client($request);
 
@@ -135,7 +141,7 @@ class Register extends Controller
                 'partner_id' => empty($partner) ? null : $partner->id
             ]);
 
-            if($request->input('installer') === true){
+            if ($request->input('installer') === true || $request->input('installer') === "true") {
               $this->registerHubUser($company,$user);
 
               $domain = $request->input('domain'); //verify later
@@ -197,15 +203,10 @@ class Register extends Controller
     public function registerBusinessDomain($company,$domain)
     {
       try {
-        //$paginator = \App\Models\Company::when
-        //$domain = $company->domains()->where('uuid', $request->domain_id)->first();
         $field = $company->domainIssuances()->create([
             'prefix' => $domain,
             'domain_id' => null
         ]);
-        //$sdk->createDomainResource()->addBodyParam('prefix', $request->domain)->send('post',['issuances']);
-
-
       }
       catch (\Exception $e){
         throw  new \Exception($e->getMessage());
