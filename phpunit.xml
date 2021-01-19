@@ -16,16 +16,16 @@
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="CACHE_DRIVER" value="array"/>
-        <env name="SUPER_ADMIN_EMAIL" value="superadmin@lms.test"/>
+        <!-- <env name="SUPER_ADMIN_EMAIL" value="superadmin@lms.test"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SUPER_ADMIN_PASSWORD" value="password"/>
         <env name="TEST_LOGIN_EMAIL" value="ayotomideaina@gmail.com"/>
         <env name="TEST_LOGIN_PASSWORD" value="password"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
-        <env name="DB_CONNECTION" value="mysql_test"/>
-        <env name="DB_DATABASE" value=":memory:"/>
+        <env name="DB_CONNECTION" value="mysql"/>
+        <env name="DB_DATABASE" value=":memory:"/> -->
         <env name="SESSION_DRIVER" value="array"/>
-        <env name="CLIENT_ID" value="2"/>
-        <env name="CLIENT_SECRET" value="hFWx5xkPbVKXvLwD17Lbl5MFczORgKZwvawKOzpc"/>
+        <!-- <env name="CLIENT_ID" value="2"/>
+        <env name="CLIENT_SECRET" value="hFWx5xkPbVKXvLwD17Lbl5MFczORgKZwvawKOzpc"/> -->
     </php>
 </phpunit>
