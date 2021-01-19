@@ -7,6 +7,9 @@ class RegistrationTest extends TestCase
      public function testing_user_signup()
      {
 
+        // $client = $this->post('/setup');
+        // $client->getOriginalContent();
+        // dd($client);
          $user = factory('App\Models\User')->create();
          $response = $this->post('/register', [
              'email' => $user->email.'32',
