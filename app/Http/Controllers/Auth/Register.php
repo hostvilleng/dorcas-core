@@ -35,7 +35,7 @@ class Register extends Controller
             'client_id' => 'required|numeric',
             'client_secret' => 'required|string',
             'email' => 'required|email|max:80|unique:users,email',
-            'password' => 'required|min:3',
+            'password' => 'required|min:8',
             'firstname' => 'required|max:30',
             'lastname' => 'required|max:80',
             'company' => 'nullable|max:100',
@@ -51,6 +51,12 @@ class Register extends Controller
         ]);
         // $request->request->set('client_id',env('CLIENT_ID'));
         // $request->request->set('client_secret',env('CLIENT_SECRET'));
+
+        if($request->input('installer') === true || $request->input('installer') === "true") {
+          $this->validate($request, ['domain' => 'required|max:100']);
+        }
+
+
         # validate the request
         validate_api_client($request);
 
@@ -135,8 +141,11 @@ class Register extends Controller
                 'partner_id' => empty($partner) ? null : $partner->id
             ]);
 
-            if($request->input('installer') === true){
+            if ($request->input('installer') === true || $request->input('installer') === "true") {
               $this->registerHubUser($company,$user);
+
+              $domain = $request->input('domain'); //verify later
+              $this->registerBusinessDomain($company,$domain);
             }
 
             # we need to create the user
@@ -159,7 +168,7 @@ class Register extends Controller
       try {
          $db = DB::connection('hub_mysql');
          DB::transaction(function () use(&$data,$db,&$dorcasUser) {
-             $company = new Company;
+           $company = new Company;
              $company->setConnection('hub_mysql');
              $company =  $company->create([
                 'uuid' => $data->id,
@@ -182,6 +191,7 @@ class Register extends Controller
               ]);
 
             });
+
         return true;
 
       }
@@ -189,4 +199,18 @@ class Register extends Controller
         throw  new \Exception($e->getMessage());
       }
     }
+
+    public function registerBusinessDomain($company,$domain)
+    {
+      try {
+        $field = $company->domainIssuances()->create([
+            'prefix' => $domain,
+            'domain_id' => null
+        ]);
+      }
+      catch (\Exception $e){
+        throw  new \Exception($e->getMessage());
+      }
+    }
+
 }

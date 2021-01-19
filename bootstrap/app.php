@@ -2,11 +2,18 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+// try {
+//     (new Dotenv\Dotenv(__DIR__ . '/../'))->load();
+// } catch (Dotenv\Exception\InvalidPathException $e) {
+//     //
+// }
+
 try {
-    (new Dotenv\Dotenv(__DIR__ . '/../'))->load();
+    (Dotenv\Dotenv::create(__DIR__ . '/../'))->load();
 } catch (Dotenv\Exception\InvalidPathException $e) {
     //
 }
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +32,7 @@ $app = new Laravel\Lumen\Application(
 
 
 
+
 $app->withFacades(true, [
     'Illuminate\Support\Facades\Notification' => 'Notification',
     Barryvdh\Snappy\Facades\SnappyPdf::class => 'PDF',
@@ -40,6 +48,8 @@ $app->alias('auth', 'Illuminate\Auth\AuthManager');
 // use Illuminate\Support\Facades\Storage;
 // use Barryvdh\Snappy\Facades\SnappyPdf;
 // use Illuminate\Support\Facades\Notification;
+
+
 
 $app->withEloquent();
 

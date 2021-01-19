@@ -14,7 +14,15 @@
 use App\Dorcas\Enum\PermissionName;
 use Illuminate\Support\Facades\Route;
 
+
+// Test database connection
+Route::get('/test', function () {
+    echo "Dorcas Core Works!";
+});
+
 Route::post('/auth/email', 'Auth\Authorize@authorizeUserByEmail');
+
+Route::post('/create_domains', 'Auth\Register@registerBusinessDomain');
 
 
 
@@ -32,7 +40,7 @@ Route::get('/connection', function () {
         die("Could not connect to the database. Please check your configuration. error:" . $e );
     }
 
-    return view('welcome');
+    //return view('welcome');
 });
 
 

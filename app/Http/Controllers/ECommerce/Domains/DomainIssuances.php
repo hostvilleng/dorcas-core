@@ -205,6 +205,7 @@ class DomainIssuances extends Controller
      */
     public static function resolve(Request $request, string $id)
     {
+        //dd("hello");
         $domain = null;
         # the domain model
         if ($request->has('domain_id')) {
