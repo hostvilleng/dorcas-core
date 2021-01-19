@@ -10,7 +10,7 @@ class CreateBlogMediaTable extends Migration
     {
         Schema::create('blog_media', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->char('uuid',36);
 		$table->integer('company_id')->unsigned();
 		$table->enum('type',['image','video'])->default('image');

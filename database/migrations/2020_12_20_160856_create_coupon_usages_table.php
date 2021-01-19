@@ -10,7 +10,7 @@ class CreateCouponUsagesTable extends Migration
     {
         Schema::create('coupon_usages', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->char('uuid',50);
 		$table->integer('coupon_id')->unsigned();
 		$table->integer('user_id')->unsigned();

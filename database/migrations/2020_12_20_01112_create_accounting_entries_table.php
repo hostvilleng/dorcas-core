@@ -10,12 +10,12 @@ class CreateAccountingEntriesTable extends Migration
     {
         Schema::create('accounting_entries', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->char('uuid',50);
 		$table->integer('account_id')->unsigned()->nullable();
 		$table->enum('entry_type',['credit','debit']);
 		$table->char('currency',3)->default('NGN');
-		$table->decimal('amount',12,2)->default('0.00');
+		$table->decimal('amount',12,2)->default(0.00);
 		$table->string('memo',300)->nullable();
 		$table->char('source_type',50)->default('manual');
 		$table->string('source_info',300)->default('manual');

@@ -10,7 +10,7 @@ class CreateLocationsTable extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->char('uuid',50);
 		$table->integer('company_id')->unsigned();
 		$table->integer('state_id')->unsigned();

@@ -10,7 +10,7 @@ class CreateTaxRunAuthoritiesTable extends Migration
     {
         Schema::create('tax_run_authorities', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->bigInteger('run_id')->unsigned();
 		$table->bigInteger('authority_id')->unsigned();
 		$table->string('amount');

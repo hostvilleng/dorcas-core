@@ -14,7 +14,7 @@ class CreateCustomerOrderTable extends Migration
 		$table->integer('order_id')->unsigned();
 		$table->tinyInteger('is_paid')->default(0);
 		$table->timestamp('paid_at')->nullable();
-		// $table->primary(['customer_id','order_id']);
+		$table->primary(['customer_id','order_id']);
         $table->foreign('customer_id')->references('id')->on('customers');
         $table->foreign('order_id')->references('id')->on('orders');
         });

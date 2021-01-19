@@ -18,7 +18,7 @@ class CreateBlogCategoriesTable extends Migration
             $table->char('name',80);
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies');	
-            // $table->foreign('parent_id')->references('id')->on('blog_categories');
+            $table->foreign('parent_id')->references('id')->on('blog_categories');
 
         });
     }

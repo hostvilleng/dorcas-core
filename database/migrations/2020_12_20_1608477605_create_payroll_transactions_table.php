@@ -10,7 +10,7 @@ class CreatePayrollTransactionsTable extends Migration
     {
         Schema::create('payroll_transactions', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->char('uuid',36);
 		$table->integer('company_id')->unsigned();
 		$table->integer('employee_id')->unsigned();

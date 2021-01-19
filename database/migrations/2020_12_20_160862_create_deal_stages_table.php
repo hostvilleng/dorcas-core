@@ -10,7 +10,7 @@ class CreateDealStagesTable extends Migration
     {
         Schema::create('deal_stages', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->char('uuid',36);
 		$table->integer('deal_id')->unsigned();
 		$table->char('name',80);

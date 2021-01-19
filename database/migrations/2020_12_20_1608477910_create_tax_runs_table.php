@@ -10,7 +10,7 @@ class CreateTaxRunsTable extends Migration
     {
         Schema::create('tax_runs', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->integer('tax_element_id')->unsigned();
 		$table->char('uuid',36);
 		$table->string('run_name');

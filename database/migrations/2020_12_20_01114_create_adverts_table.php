@@ -10,7 +10,7 @@ class CreateAdvertsTable extends Migration
     {
         Schema::create('adverts', function (Blueprint $table) {
 
-		$table->integer('id')->unsigned();
+		$table->increments('id');
 		$table->char('uuid',36);
 		$table->integer('company_id')->unsigned();
 		$table->integer('poster_id')->unsigned();
@@ -19,7 +19,7 @@ class CreateAdvertsTable extends Migration
 		$table->char('image_filename',255)->nullable();
 		$table->string('redirect_url',500)->nullable();
 		$table->text('extra_data');
-		$table->tinyInteger('is_default',1);
+		$table->tinyInteger('is_default');
 		$table->timestamps();
 		$table->foreign('company_id')->references('id')->on('companies');		$table->foreign('poster_id')->references('id')->on('users');
         });

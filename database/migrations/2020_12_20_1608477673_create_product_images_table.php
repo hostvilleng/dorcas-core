@@ -10,7 +10,7 @@ class CreateProductImagesTable extends Migration
     {
         Schema::create('product_images', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->char('uuid',50);
 		$table->integer('product_id')->unsigned();
 		$table->string('url',300);

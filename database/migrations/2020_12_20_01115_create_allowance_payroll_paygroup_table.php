@@ -10,11 +10,11 @@ class CreateAllowancePayrollPaygroupTable extends Migration
     {
         Schema::create('allowance_payroll_paygroup', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->integer('payroll_paygroup_id')->unsigned();
 		$table->timestamps();
 		$table->integer('payroll_allowances_Id')->unsigned();
-		// $table->foreign('payroll_paygroup_id')->references('id')->on('payroll_paygroup');
+		$table->foreign('payroll_paygroup_id')->references('id')->on('payroll_paygroup');
         });
     }
 

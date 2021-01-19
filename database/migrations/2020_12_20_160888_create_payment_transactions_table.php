@@ -10,7 +10,7 @@ class CreatePaymentTransactionsTable extends Migration
     {
         Schema::create('payment_transactions', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->char('uuid',50);
 		$table->integer('order_id',)->unsigned();
 		$table->integer('customer_id')->unsigned();

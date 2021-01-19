@@ -10,14 +10,14 @@ class CreatePayrollAuthoritiesTable extends Migration
     {
         Schema::create('payroll_authorities', function (Blueprint $table) {
 
-		$table->integer('id')->unsigned();
+		$table->increments('id');
 		$table->integer('company_id')->unsigned();
 		$table->char('uuid',36);
 		$table->string('authority_name');
 		$table->enum('payment_mode',['paystack','flutterwave']);
 		$table->json('default_payment_details');
 		$table->json('payment_details');
-		$table->tinyInteger('isActive',1);
+		$table->tinyInteger('isActive');
 		$table->timestamps();
 		$table->foreign('company_id')->references('id')->on('companies');
         });

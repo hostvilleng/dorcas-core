@@ -10,7 +10,7 @@ class CreateUserAccessGrantsTable extends Migration
     {
         Schema::create('user_access_grants', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->char('uuid',36);
 		$table->integer('user_id')->unsigned();
 		$table->integer('company_id')->unsigned();

@@ -10,7 +10,7 @@ class CreateLeaveRequestsTable extends Migration
     {
         Schema::create('leave_requests', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->integer('employee_id')->unsigned();
 		$table->integer('group_id')->unsigned();
 		$table->integer('approval_id')->unsigned();

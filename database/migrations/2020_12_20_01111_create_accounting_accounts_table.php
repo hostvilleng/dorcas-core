@@ -10,7 +10,7 @@ class CreateAccountingAccountsTable extends Migration
     {
         Schema::create('accounting_accounts', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->char('uuid',50);
 		$table->integer('company_id')->unsigned();
 		$table->integer('parent_account_id')->unsigned()->nullable();

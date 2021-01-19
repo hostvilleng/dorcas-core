@@ -13,7 +13,7 @@ class CreateCompanyServiceTable extends Migration
 		$table->integer('company_id')->unsigned();
 		$table->integer('service_id')->unsigned();
 		$table->timestamp('created_at');
-		// $table->primary(['company_id','service_id']);
+		$table->primary(['company_id','service_id']);
 
         });
     }

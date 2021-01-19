@@ -12,7 +12,7 @@ class CreateEmployeeTeamTable extends Migration
 
 		$table->integer('employee_id')->unsigned();
 		$table->integer('team_id')->unsigned();
-		// $table->primary(['employee_id','team_id']);
+		$table->primary(['employee_id','team_id']);
         $table->foreign('employee_id')->references('id')->on('employees');
         $table->foreign('team_id')->references('id')->on('teams');
         });

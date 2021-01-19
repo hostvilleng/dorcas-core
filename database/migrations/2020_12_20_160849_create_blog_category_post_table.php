@@ -12,7 +12,7 @@ class CreateBlogCategoryPostTable extends Migration
 
 		$table->integer('blog_category_id')->unsigned();
 		$table->integer('blog_post_id')->unsigned();
-		// $table->primary(['blog_category_id','blog_post_id']);
+		$table->primary(['blog_category_id','blog_post_id']);
         $table->foreign('blog_category_id')->references('id')->on('blog_categories');	
         $table->foreign('blog_post_id')->references('id')->on('blog_posts');
         });

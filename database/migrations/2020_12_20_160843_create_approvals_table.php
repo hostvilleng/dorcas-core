@@ -10,7 +10,7 @@ class CreateApprovalsTable extends Migration
     {
         Schema::create('approvals', function (Blueprint $table) {
 
-			$table->integer('id')->primary()->unsigned();
+			$table->increments('id');
 			$table->char('uuid',36);
 			$table->string('title');
 			$table->enum('scope_type',['key_person','min_number','both']);

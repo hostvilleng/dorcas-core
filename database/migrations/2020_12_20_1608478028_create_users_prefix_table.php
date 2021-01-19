@@ -10,10 +10,9 @@ class CreateUsersPrefixTable extends Migration
     {
         Schema::create('users_prefix', function (Blueprint $table) {
 
-		$table->integer('id');
+		$table->increments('id');
 		$table->char('user_id',80);
 		$table->string('prefix',25);
-		$table->primary('id');
 
         });
     }

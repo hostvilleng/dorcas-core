@@ -10,7 +10,7 @@ class CreatePayrollRunEmployeesTable extends Migration
     {
         Schema::create('payroll_run_employees', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->integer('employee_id')->unsigned();
 		$table->integer('run_id')->unsigned()->nullable();
 		$table->string('amount');

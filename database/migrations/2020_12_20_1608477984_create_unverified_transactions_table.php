@@ -10,7 +10,7 @@ class CreateUnverifiedTransactionsTable extends Migration
     {
         Schema::create('unverified_transactions', function (Blueprint $table) {
 
-		$table->integer('id')->primary();
+		$table->increments('id');
 		$table->char('uuid',80);
 		$table->bigInteger('account_id')->unsigned();
 		$table->string('amount',45);

@@ -10,7 +10,7 @@ class CreateApprovalAuthorizersTable extends Migration
     {
         Schema::create('approval_authorizers', function (Blueprint $table) {
 
-		$table->integer('id')->primary()->unsigned();
+		$table->increments('id');
 		$table->bigInteger('user_id')->unsigned();
 		$table->bigInteger('approval_id')->unsigned();
 		$table->enum('approval_scope',['critical','standard'])->nullable();

@@ -10,7 +10,7 @@ class CreateTranstrakLogsTable extends Migration
     {
         Schema::create('transtrak_logs', function (Blueprint $table) {
 
-		$table->integer('id')->primary();
+		$table->increments('id');
 		$table->string('payload',45);
 		$table->tinyInteger('passed')->default('0');
 		$table->timestamps();
