@@ -8,6 +8,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 //     //
 // }
 
+
+
 try {
     (Dotenv\Dotenv::create(__DIR__ . '/../'))->load();
 } catch (Dotenv\Exception\InvalidPathException $e) {
@@ -38,6 +40,9 @@ $app->withFacades(true, [
     Barryvdh\Snappy\Facades\SnappyPdf::class => 'PDF',
     \Illuminate\Support\Facades\Storage::class => 'Storage'
 ]);
+
+$app->instance('path.config', app()->basePath() . DIRECTORY_SEPARATOR . 'config');
+$app->instance('path.storage', app()->basePath() . DIRECTORY_SEPARATOR . 'storage');
 
 $app->register(\Illuminate\Redis\RedisServiceProvider::class);
 
@@ -163,7 +168,6 @@ $app->register(App\Providers\EventServiceProvider::class);
 $app->register(\Illuminate\Filesystem\FilesystemServiceProvider::class);
 $app->register(Laravel\Passport\PassportServiceProvider::class);
 $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
-$app->register(\Vluzrmos\Tinker\TinkerServiceProvider::class);
 $app->register(Laravel\Scout\ScoutServiceProvider::class);
 $app->register(\Illuminate\Mail\MailServiceProvider::class);
 $app->register(\Illuminate\Notifications\NotificationServiceProvider::class);
