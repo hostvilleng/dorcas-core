@@ -8,7 +8,7 @@ Homestead.yaml
 .DS_Store
 /sftp-config.json
 bootstrap/app.php
-/storage/oauth-*
+#/storage/oauth-*
 /config
 BaltimoreCyberTrustRoot.crt.pem
 composer-live.json
