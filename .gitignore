@@ -12,12 +12,5 @@ bootstrap/app.php
 /config
 BaltimoreCyberTrustRoot.crt.pem
 composer-live.json
-dorcas-api.yaml
-dorcas-base.yml
-dorcas-base.sql
-dorcas-update.sql
-dorcas.sql
-rds-ca-2019-root.pem
-ansible-automation
-/.phpintel
+composer-dev.json
 storage/logs/*
