@@ -9,8 +9,6 @@ Homestead.yaml
 /sftp-config.json
 bootstrap/app.php
 #/storage/oauth-*
-/config
-BaltimoreCyberTrustRoot.crt.pem
 composer-live.json
 composer-dev.json
 storage/logs/*
