@@ -52,6 +52,9 @@
         },
         "files": [
             "app/Dorcas/Support/helpers.php"
+        ],
+        "classmap": [
+            "database"
         ]
     },
     "autoload-dev": {
