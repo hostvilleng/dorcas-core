@@ -162,48 +162,37 @@ class Register extends Controller
         $resource = new Item($user, $transformer, 'user');
         return response()->json($fractal->createData($resource)->toArray());
     }
-    //189,141,174
+
+    
     private function registerHubUser($company_core,$dorcasUser)
     {
       try {
-         $db = DB::connection('hub_mysql');
-         DB::transaction(function () use(&$company_core,$db,&$dorcasUser) {
-          //  $company = new Company;
-          //    $company->setConnection('hub_mysql');
-          //    $company =  $company->create([
-          //       'uuid' => $company_core->id,
-          //       'reg_number' => $company_core->registration,
-          //       'name' => $company_core->name,
-          //       'phone' => $company_core->phone,
-          //       'email' => $company_core->email,
-          //       'website' => $company_core->website
-          //     ]);
+        $db = DB::connection('hub_mysql');
+        DB::transaction(function () use(&$company_core,$db,&$dorcasUser) {
+             $company = new Company;
+             $company->setConnection('hub_mysql');
+             $company =  $company->create([
+               'uuid' => $company_core->uuid,
+               'reg_number' => $company_core->registration,
+               'name' => $company_core->name,
+               'phone' => $company_core->phone,
+               'email' => $company_core->email,
+               'website' => $company_core->website
+             ]);
 
-              $table_companies = !empty(env('DB_HUB_PREFIX')) ? env('DB_HUB_PREFIX') . "companies" : "companies";
-              $company = $db->table($table_companies)->insert([
-                'uuid' => $company_core->id,
-                'reg_number' => $company_core->registration,
-                'name' => $company_core->name,
-                'phone' => $company_core->phone,
-                'email' => $company_core->email,
-                'website' => $company_core->website
-              ]);
+             $db->table("users")->insert([
+               'uuid' => $dorcasUser->uuid,
+               'firstname' => $dorcasUser->firstname,
+               'lastname' => $dorcasUser->lastname,
+               'email' => $dorcasUser->email,
+               'password' => $dorcasUser->password,
+               'company_id' => $company->id,
+               'gender' => $dorcasUser->gender,
+               'photo_url' => $dorcasUser->photo,
+               'is_verified' => (int) $dorcasUser->is_verified
+             ]);
 
-
-              $table_users = !empty(env('DB_HUB_PREFIX')) ? env('DB_HUB_PREFIX') . "users" : "users";
-              $db->table($table_users)->insert([
-                'uuid' => $dorcasUser->id,
-                'firstname' => $dorcasUser->firstname,
-                'lastname' => $dorcasUser->lastname,
-                'email' => $dorcasUser->email,
-                'password' => $dorcasUser->password,
-                'company_id' => $company->id,
-                'gender' => $dorcasUser->gender,
-                'photo_url' => $dorcasUser->photo,
-                'is_verified' => (int) $dorcasUser->is_verified
-              ]);
-
-            });
+           });
 
         return true;
 
