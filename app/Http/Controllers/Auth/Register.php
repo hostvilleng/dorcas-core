@@ -162,7 +162,7 @@ class Register extends Controller
         $resource = new Item($user, $transformer, 'user');
         return response()->json($fractal->createData($resource)->toArray());
     }
-    
+    //189,141,174
     private function registerHubUser($data,$dorcasUser)
     {
       try {
@@ -178,7 +178,8 @@ class Register extends Controller
                 'email' => $data->email,
                 'website' => $data->website
               ]);
-              $db->table('users')->insert([
+              $table_users = !empty(env('DB_HUB_PREFIX')) ? env('DB_HUB_PREFIX') . "users" : "users";
+              $db->table($table_users)->insert([
                 'uuid' => $dorcasUser->id,
                 'firstname' => $dorcasUser->firstname,
                 'lastname' => $dorcasUser->lastname,
