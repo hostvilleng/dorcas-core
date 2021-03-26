@@ -163,21 +163,33 @@ class Register extends Controller
         return response()->json($fractal->createData($resource)->toArray());
     }
     //189,141,174
-    private function registerHubUser($data,$dorcasUser)
+    private function registerHubUser($company_core,$dorcasUser)
     {
       try {
          $db = DB::connection('hub_mysql');
-         DB::transaction(function () use(&$data,$db,&$dorcasUser) {
-           $company = new Company;
-             $company->setConnection('hub_mysql');
-             $company =  $company->create([
-                'uuid' => $data->id,
-                'reg_number' => $data->registration,
-                'name' => $data->name,
-                'phone' => $data->phone,
-                'email' => $data->email,
-                'website' => $data->website
+         DB::transaction(function () use(&$company_core,$db,&$dorcasUser) {
+          //  $company = new Company;
+          //    $company->setConnection('hub_mysql');
+          //    $company =  $company->create([
+          //       'uuid' => $company_core->id,
+          //       'reg_number' => $company_core->registration,
+          //       'name' => $company_core->name,
+          //       'phone' => $company_core->phone,
+          //       'email' => $company_core->email,
+          //       'website' => $company_core->website
+          //     ]);
+
+              $table_companies = !empty(env('DB_HUB_PREFIX')) ? env('DB_HUB_PREFIX') . "companies" : "companies";
+              $company = $db->table($table_companies)->insert([
+                'uuid' => $company_core->id,
+                'reg_number' => $company_core->registration,
+                'name' => $company_core->name,
+                'phone' => $company_core->phone,
+                'email' => $company_core->email,
+                'website' => $company_core->website
               ]);
+
+
               $table_users = !empty(env('DB_HUB_PREFIX')) ? env('DB_HUB_PREFIX') . "users" : "users";
               $db->table($table_users)->insert([
                 'uuid' => $dorcasUser->id,
