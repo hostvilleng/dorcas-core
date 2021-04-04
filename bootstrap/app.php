@@ -53,6 +53,8 @@ $app->alias('auth', 'Illuminate\Auth\AuthManager');
 
 $app->withEloquent();
 
+$app->instance('path.config', app()->basePath() . DIRECTORY_SEPARATOR . 'config'); 
+
 
 
 
