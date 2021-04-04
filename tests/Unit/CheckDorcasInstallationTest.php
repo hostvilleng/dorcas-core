@@ -15,4 +15,15 @@ class CheckDorcasInstallationTest extends TestCase
     {
         $this->assertTrue(true);
     }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function test_advanced_test()
+    {
+        $this->assertTrue(true);
+    }
+
 }
