@@ -168,29 +168,30 @@ class Register extends Controller
     {
       try {
         $db = DB::connection('hub_mysql');
-        DB::transaction(function () use(&$company_core,$db,&$dorcasUser) {
-             $company = new Company;
-             $company->setConnection('hub_mysql');
-             $company =  $company->create([
-               'uuid' => $company_core->uuid,
-               'reg_number' => $company_core->registration,
-               'name' => $company_core->name,
-               'phone' => $company_core->phone,
-               'email' => $company_core->email,
-               'website' => $company_core->website
-             ]);
+        DB::transaction(function () use(&$company_core,$db,$dorcasUser) {
+             //$company = new Company;
+             //$company->setConnection('hub_mysql');
+             
+             $company_id = $db->table("companies")->insertGetId([
+              'uuid' => $company_core->uuid,
+              'reg_number' => $company_core->registration,
+              'name' => $company_core->name,
+              'phone' => $company_core->phone,
+              'email' => $company_core->email,
+              'website' => $company_core->website
+            ]);
 
-             $db->table("users")->insert([
-               'uuid' => $dorcasUser->uuid,
-               'firstname' => $dorcasUser->firstname,
-               'lastname' => $dorcasUser->lastname,
-               'email' => $dorcasUser->email,
-               'password' => $dorcasUser->password,
-               'company_id' => $company->id,
-               'gender' => $dorcasUser->gender,
-               'photo_url' => $dorcasUser->photo,
-               'is_verified' => (int) $dorcasUser->is_verified
-             ]);
+            $user_id = $db->table("users")->insert([
+              'uuid' => $dorcasUser->uuid,
+              'firstname' => $dorcasUser->firstname,
+              'lastname' => $dorcasUser->lastname,
+              'email' => $dorcasUser->email,
+              'password' => $dorcasUser->password,
+              'company_id' => $company_id,
+              //'gender' => $dorcasUser->gender,
+              //'photo_url' => $dorcasUser->photo,
+              'is_verified' => 0
+            ]);
 
            });
 

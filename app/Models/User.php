@@ -69,8 +69,19 @@ class User extends Model implements Authenticatable, Authorizable
      */
     public function getPhotoAttribute(): string
     {
-        $storage_gravatar_url = !empty($this->attributes['photo_url']) && substr_count($this->attributes['photo_url'],"gravatar.com") > 0 ? $this->attributes['photo_url'] : Storage::disk(config('filesystems.default'))->url($this->attributes['photo_url']);
-        return !empty($this->attributes['photo_url']) ? $storage_gravatar_url : gravatar($this->attributes['email']);
+        //$storage_gravatar_url = !empty($this->attributes['photo_url']) && substr_count($this->attributes['photo_url'],"gravatar.com") > 0 ? $this->attributes['photo_url'] : Storage::disk(config('filesystems.default'))->url($this->attributes['photo_url']);
+        $storage_gravatar_url = "";
+        if (!empty($this->attributes['photo_url'])) {
+            if (substr_count($this->attributes['photo_url'],"gravatar.com") > 0) {
+                $storage_gravatar_url = $this->attributes['photo_url'];
+            } else {
+                $storage_gravatar_url = Storage::disk(config('filesystems.default'))->url($this->attributes['photo_url']);
+            }
+        } else {
+            $storage_gravatar_url = gravatar($this->attributes['email']);
+        }
+        
+        return $storage_gravatar_url;
     }
     
     /**
