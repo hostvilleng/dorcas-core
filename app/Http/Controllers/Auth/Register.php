@@ -81,14 +81,16 @@ class Register extends Controller
         $possible_features = ['selling_online','payroll','finance','all'];
         $feature_modules = [
             'selling_online' => ['customers','ecommerce','sales'],
-            'payroll' => ['people'],
-            'finance' => ['finance'],
+            'payroll' => ['customers','people'],
+            'finance' => ['customers','finance'],
              'all' => ['customers','people','finance','ecommerce','sales']
         ];
         
         $feature_selected = $request->input('feature_select');
 
-        $feature_converted = !empty($feature_selected) ? $feature_modules[$feature_selected] : [];
+        //$feature_converted = !empty($feature_selected) ? $feature_modules[$feature_selected] : [];
+
+        $feature_converted = []; //force there to be no modules
 
         $module = array_merge($feature_converted,$base_modules);
         
