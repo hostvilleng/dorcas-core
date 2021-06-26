@@ -115,7 +115,14 @@ class Register extends Controller
 
             $paidExpiry = Carbon::now()->addMonth()->subDay()->endOfDay(); //example of monthly payment. calculate properly for paid plans
 
-            $expiry = $plan->price_monthly === 0 ? Carbon::now()->addYear()->subDay()->endOfDay() : $paidExpiry; //make 1 year for all new users and real data  for others
+            //$expiry = $plan->price_monthly === 0 ? Carbon::now()->addYear()->subDay()->endOfDay() : $paidExpiry; //make 1 year for all new users and real data  for others
+
+            $expiry = Carbon::now()->addYear(10); //10 years default
+            if (in_array(config('dorcas.edition','business'), ["cloud", "enterprise"])) {
+              $expiry = Carbon::now()->addYear()->subDay()->endOfDay(); // 1 year default for commercial
+              #may need to update to a db driven value to monitor multi-tenant preference (e.g monthly) and freemium periods
+            }
+
 
             $configurations = [];
             $configurations['module_preference'] = $module;
@@ -125,7 +132,7 @@ class Register extends Controller
                 'name' => $companyName,
                 'plan_id' => $plan->id,
                 'plan_type' => $request->input('plan_type', 'monthly'),
-                'access_expires_at' => empty($expiry) ? $expiry :  $expiry->format('Y-m-d H:i:s'),
+                'access_expires_at' => $expiry->format('Y-m-d H:i:s'),
                 'extra_data' => $configurations,
                 'prefix' => prefixGenerator()
             ]);
