@@ -25,8 +25,9 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\Setup\ImportCountries::class,
         \App\Console\Commands\Setup\ImportStates::class,
         \App\Console\Commands\Setup\RolesAndPermissions::class,
-        \App\Console\Commands\Reports\PlatformStats::class,
-        \App\Console\Commands\Requests\leaveAction::class
+        //\App\Console\Commands\Reports\PlatformStats::class,
+        //\App\Console\Commands\Requests\leaveAction::class
+        \App\Console\Commands\DorcasSetup::class,
     ];
 
     /**
@@ -68,18 +69,6 @@ class Kernel extends ConsoleKernel
         //     dispatch(new AutoBilling());
         // })->dailyAt('07:00');
         // # auto charge customers at this time
-    }
-
-    /**
-     * Register the commands for the application.
-     *
-     * @return void
-     */
-    protected function commands()
-    {
-        $this->load(__DIR__.'/Commands');
-
-        //require base_path('routes/console.php');
     }
 
 }
