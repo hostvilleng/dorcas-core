@@ -46,27 +46,40 @@ class Kernel extends ConsoleKernel
         })->everyTenMinutes();*/
         # move Transtrak entries between databases
 
-        $schedule->call(function (){
-            echo 'hello World';
-        })->everyMinute();
+        // $schedule->call(function (){
+        //     echo 'hello World';
+        // })->everyMinute();
 
-        $schedule->call(function (){
-          dispatch(new TaxRun());
-        })->daily();
-        $schedule->call(function (){
-           dispatch(new ApprovalsJob());
-        })->everyMinute();
+        // $schedule->call(function (){
+        //   dispatch(new TaxRun());
+        // })->daily();
+        // $schedule->call(function (){
+        //    dispatch(new ApprovalsJob());
+        // })->everyMinute();
 
-        $schedule->command('dorcas:report-platform-stats')
-                    ->dailyAt('07:00')
-                    ->sendOutputTo(storage_path('logs/platform-report-output.log'));
-        $schedule->call(function () {
-            dispatch(new AutoBillingReminder());
-        })->dailyAt('07:00');
-        # send auto-billing reminders
-        $schedule->call(function () {
-            dispatch(new AutoBilling());
-        })->dailyAt('07:00');
-        # auto charge customers at this time
+        // $schedule->command('dorcas:report-platform-stats')
+        //             ->dailyAt('07:00')
+        //             ->sendOutputTo(storage_path('logs/platform-report-output.log'));
+        // $schedule->call(function () {
+        //     dispatch(new AutoBillingReminder());
+        // })->dailyAt('07:00');
+        // # send auto-billing reminders
+        // $schedule->call(function () {
+        //     dispatch(new AutoBilling());
+        // })->dailyAt('07:00');
+        // # auto charge customers at this time
     }
+
+    /**
+     * Register the commands for the application.
+     *
+     * @return void
+     */
+    protected function commands()
+    {
+        $this->load(__DIR__.'/Commands');
+
+        //require base_path('routes/console.php');
+    }
+
 }
