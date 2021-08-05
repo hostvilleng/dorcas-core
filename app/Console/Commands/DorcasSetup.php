@@ -60,7 +60,9 @@ class DorcasSetup extends Command
         }
 
         try {
-            //putenv ("CUSTOM_VARIABLE=hero");
+
+            $key = \Illuminate\Support\Str::random(32);
+            putenv ("APP_KEY=$key");
 
             $conn = mysqli_connect(getenv('DB_HOST'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'));
 
