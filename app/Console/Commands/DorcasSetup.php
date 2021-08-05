@@ -62,7 +62,13 @@ class DorcasSetup extends Command
         try {
 
             $key = \Illuminate\Support\Str::random(32);
-            putenv ("APP_KEY=$key");
+            $path = base_path('.env');
+            if (file_exists($path)) {
+                file_put_contents($path, str_replace(
+                    'APP_KEY=', 'APP_KEY='.$key, file_get_contents($path)
+                ));
+                $this->info('Successfully created APP KEY');
+            }
 
             $conn = mysqli_connect(getenv('DB_HOST'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'));
 
