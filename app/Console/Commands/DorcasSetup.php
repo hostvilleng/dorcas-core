@@ -79,7 +79,7 @@ class DorcasSetup extends Command
             }
             
             // Create database
-            $sql = "CREATE DATABASE IF NOT EXISTS `" . $database . "`; USE `" . $database . "`;";
+            $sql = "CREATE DATABASE IF NOT EXISTS `" . $database . "`";
             if (mysqli_query($conn, $sql)) {
                 $this->info(sprintf('Successfully created %s database', $database));
             } else {
@@ -110,6 +110,13 @@ class DorcasSetup extends Command
                 die("Connection failed: " . mysqli_connect_error());
             }
 
+            $sql = "USE `" . $database . "`";
+            if (mysqli_query($connImport, $sql)) {
+                $this->info(sprintf('Successfully selected %s database', $database));
+            } else {
+                $this->error(sprintf('Error selecting %s database, %s', $database, mysqli_error($connImport)));
+            }
+
             $queryLines = 0;
             $tempLine = '';
             // Read in the full file
@@ -126,7 +133,7 @@ class DorcasSetup extends Command
                 // If its semicolon at the end, so that is the end of one query
                 if (substr(trim($line), -1, 1) == ';')  {
                     // Perform the query
-                    mysqli_query($connImport, $tempLine) or $this->error(sprintf("Error in " . $tempLine .": %s", mysqli_error()));
+                    mysqli_query($connImport, $tempLine) or $this->error(sprintf("Error in " . $tempLine .": %s", mysqli_error($connImport)));
                     
                     // Reset temp variable to empty
                     $tempLine = '';
