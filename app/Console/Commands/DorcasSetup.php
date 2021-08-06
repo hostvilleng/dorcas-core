@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
-use App\Http\Controllers\Controller\Setup\Init as AuthInit;
+use App\Http\Controllers\Setup\Init as AuthInit;
 use App\Http\Controllers\Auth\Register as AuthRegister;
 
 use Illuminate\Support\Facades\DB;
