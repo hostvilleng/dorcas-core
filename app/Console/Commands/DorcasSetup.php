@@ -7,6 +7,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+use App\Http\Controllers\Controller\Setup\Init as AuthInit;
+use App\Http\Controllers\Auth\Register as AuthRegister;
 
 use Illuminate\Support\Facades\DB;
 
@@ -149,6 +151,36 @@ class DorcasSetup extends Command
             $this->error(sprintf('Failed to import database: %s', $exception->getMessage()));
         }
 
+        $this->info('Setting up OAuth and Administrative Account...');
+        try {
+            $init = new AuthInit();
+            $setup = json_decode($init->setup());
+            $client_id = $setup["client_id"] ?? "";
+            $client_secret = $setup->client_secret ?? "";
+
+            $this->info('ID: ' . $client_id . ", Secret: " . $client_secret);
+
+            $data = [
+                "firstname" => "Admin",
+                "lastname" => "User",
+                "email" => "demo@dorcas.io",
+                "installer" => "true",
+                "domain" => "",
+                "password" => "",
+                "company" => "Demo",
+                "phone" => "08012345678",
+                "feature_select" => "all",
+                "client_id" => $client_id,
+                "client_secret" => $client_secret,
+            ];
+
+            $register = new AuthRegister();
+            $user = $register->register($data);
+
+
+        } catch (Exception $exception) {
+            $this->error(sprintf('Failed setting up OAuth: %s', $exception->getMessage()));
+        }
 
     }
 
