@@ -158,7 +158,7 @@ class DorcasSetup extends Command
             $client_id = $setup["client_id"] ?? "";
             $client_secret = $setup->client_secret ?? "";
 
-            $this->info((string) $setup . ' ID: ' . $client_id . ", Secret: " . $client_secret);
+            $this->info(count((array)$setup) . ' ID: ' . $client_id . ", Secret: " . $client_secret);
 
             $data = [
                 "firstname" => "Admin",
@@ -175,7 +175,7 @@ class DorcasSetup extends Command
             ];
 
             $register = new AuthRegister();
-            $request = new Illuminate\Http\Request($data);
+            $request = new \Illuminate\Http\Request($data);
             $user = $register->register($request);
 
 
