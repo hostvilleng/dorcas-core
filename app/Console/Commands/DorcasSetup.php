@@ -53,18 +53,107 @@ class DorcasSetup extends Command
         // $arguments = $this->argument();
         // $options = $this->option();
 
-
         // default setup
         $database_old = $this->option('database');
         $database = getenv('DB_DATABASE');
 
+
+        $databaseHub = getenv('DB_DATABASE');
+
+        $this->info('Checking / Creating HUB Database');
+        if (!$databaseHub) {
+            $this->info('Skipping creation of database as env(DB_DATABASE) is empty');
+            return;
+        }
+
+        try {
+            $conn = mysqli_connect(getenv('DB_HUB_HOST'), getenv('DB_HUB_USERNAME'), getenv('DB_HUB_PASSWORD'));
+
+            if (!$conn) {
+                die("Connection to HUB failed: " . mysqli_connect_error());
+            }
+            
+            // Create database
+            $sql = "CREATE DATABASE IF NOT EXISTS `" . $databaseHub . "`";
+            if (mysqli_query($conn, $sql)) {
+                $this->info(sprintf('Successfully created %s database', $databaseHub));
+            } else {
+                $this->error(sprintf('Error creating %s database, %s', $databaseHub, mysqli_error($conn)));
+            }
+            
+            mysqli_close($conn);
+
+        } catch (Exception $exception) {
+            $this->error(sprintf('Failed to create %s database, %s', $database, $exception->getMessage()));
+        }
+
+
+        $this->info('Importing HUB database...');
+        try {
+            $filename = resource_path('hub.sql');
+            # get the filename
+            if (!file_exists($filename)) {
+                throw new FileNotFoundException('Could not find the hub.sql database file at: '.$filename);
+            }
+            if (!is_readable($filename)) {
+                throw new FileException('The core.sql ('.$filename.') file is not readable by the process.');
+            }
+
+
+            $connImport = mysqli_connect(getenv('DB_HUB_HOST'), getenv('DB_HUB_USERNAME'), getenv('DB_HUB_PASSWORD'));
+
+            if (!$connImport) {
+                die("Connection failed: " . mysqli_connect_error());
+            }
+
+            $sql = "USE `" . $databaseHub . "`";
+            if (mysqli_query($connImport, $sql)) {
+                $this->info(sprintf('Successfully selected %s database', $databaseHub));
+            } else {
+                $this->error(sprintf('Error selecting %s database, %s', $databaseHub, mysqli_error($connImport)));
+            }
+
+            $queryLines = 0;
+            $tempLine = '';
+            // Read in the full file
+            $lines = file($filename);
+            // Loop through each line
+            foreach ($lines as $line) {
+
+                // Skip it if it's a comment
+                if (substr($line, 0, 2) == '--' || $line == '')
+                    continue;
+
+                // Add this line to the current segment
+                $tempLine .= $line;
+                // If its semicolon at the end, so that is the end of one query
+                if (substr(trim($line), -1, 1) == ';')  {
+                    // Perform the query
+                    mysqli_query($connImport, $tempLine) or $this->error(sprintf("Error in " . $tempLine .": %s", mysqli_error($connImport)));
+                    
+                    // Reset temp variable to empty
+                    $tempLine = '';
+                    $queryLines++;
+                }
+            }
+
+            $this->info(sprintf('%s SQL lines imported successfully to HUB', $queryLines));
+
+            mysqli_close($connImport);
+
+        } catch (Exception $exception) {
+            $this->error(sprintf('Failed to import HUB database: %s', $exception->getMessage()));
+        }
+
+
+
+        $this->info('Checking / Creating CORE Database');
         if (!$database) {
             $this->info('Skipping creation of database as env(DB_DATABASE) is empty');
             return;
         }
 
         try {
-
             $key = \Illuminate\Support\Str::random(32);
             $path = base_path('.env');
             if (file_exists($path)) {
