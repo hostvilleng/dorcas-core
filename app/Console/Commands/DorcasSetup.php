@@ -58,7 +58,7 @@ class DorcasSetup extends Command
         $database = getenv('DB_DATABASE');
 
 
-        $databaseHub = getenv('DB_DATABASE');
+        $databaseHub = getenv('DB_HUB_DATABASE');
 
         $this->info('Checking / Creating HUB Database');
         if (!$databaseHub) {
