@@ -46,6 +46,8 @@ class DorcasSetup extends Command
     public function handle($options = "")
     {
 
+        $this->info('Starting Dorcas (CORE) Setup...');
+
         // $value = $this->argument('name');
         // // and
         // $value = $this->option('name');
@@ -59,17 +61,23 @@ class DorcasSetup extends Command
         $databaseHub = getenv('DB_HUB_DATABASE');
 
 
-        $firstTimeCore = $this->checkDB("mysql", $database);
-        $firstTimeHub = $this->checkDB("hub_mysql", $databaseHub);
+        if (!$databaseHub) {
+            $this->info('Skipping creation of database as env(DB_HUB_DATABASE) is empty');
+            return;
+        }
+
+        if (!$database) {
+            $this->info('Skipping creation of database as env(DB_DATABASE) is empty');
+            return;
+        }
+
+        $firstTimeCore = $this->checkDB("CORE", "mysql", $database);
+        $firstTimeHub = $this->checkDB("HUB", "hub_mysql", $databaseHub);
 
 
         if ($firstTimeHub) {
 
             $this->info('Checking / Creating HUB Database');
-            if (!$databaseHub) {
-                $this->info('Skipping creation of database as env(DB_DATABASE) is empty');
-                return;
-            }
 
             try {
                 $conn = mysqli_connect(getenv('DB_HUB_HOST'), getenv('DB_HUB_USERNAME'), getenv('DB_HUB_PASSWORD'));
@@ -156,10 +164,6 @@ class DorcasSetup extends Command
         if ($firstTimeCore) {
         
             $this->info('Checking / Creating CORE Database');
-            if (!$database) {
-                $this->info('Skipping creation of database as env(DB_DATABASE) is empty');
-                return;
-            }
 
             try {
                 $conn = mysqli_connect(getenv('DB_HOST'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'));
@@ -301,18 +305,14 @@ class DorcasSetup extends Command
     }
 
 
-    public function checkDB($dbConnection, $dbName)
+    public function checkDB($dbTag, $dbConnection, $dbName)
     {
-        //  $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME =  ?";
-        //  $db = DB::select($query, [$dbName]);
-        //  if (empty($db)) {
-        //      return true;
-        //  } else {
-        //      return false;
-        //  }
-        if(DB::connection()->getDatabaseName()) {
+        try {
+            DB::connection($dbConnection)->getPdo();
+            $this->info("$dbTag Database Exists! Exiting first time setup...");
             return false;
-        } else {
+        } catch (\Exception $e) {
+            $this->info("$dbTag Database Not Found! Proceeding with first time setup...");
             return true;
         }
     }
