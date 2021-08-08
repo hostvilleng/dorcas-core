@@ -154,9 +154,12 @@ class DorcasSetup extends Command
         $this->info('Setting up OAuth and Administrative Account...');
         try {
             $init = new AuthInit();
-            $setup = json_decode($init->setup());
-            $client_id = $setup["client_id"] ?? "";
-            $client_secret = $setup->client_secret ?? "";
+            $setup = json_decode($init->setup()); // this one doesnt seem to return what we want o
+
+            //manually get client ids & secret in first password grant client record
+            $client = DB::table("oauth_clients")->where('password_client', 1)->first();
+            $client_id = $client->client_id ?? "";
+            $client_secret = $client->client_secret ?? "";
 
             $this->info(count((array)$setup) . ' ID: ' . $client_id . ", Secret: " . $client_secret);
 
@@ -176,7 +179,8 @@ class DorcasSetup extends Command
 
             $register = new AuthRegister();
             $request = new \Illuminate\Http\Request($data);
-            $user = $register->register($request);
+            $fractal = new \League\Fractal\Manager;
+            $user = $register->register($request, $fractal);
 
 
         } catch (Exception $exception) {
