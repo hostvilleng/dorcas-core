@@ -257,7 +257,7 @@ class DorcasSetup extends Command
                 $client_id = $client->id;
                 $client_secret = $client->secret;
 
-                //$this->info(' ID: ' . $client_id . ", Secret: " . $client_secret);
+                $this->info(' ID: ' . $client_id . ", Secret: " . $client_secret);
 
                 $password = \Illuminate\Support\Str::random(10);
 
@@ -277,6 +277,7 @@ class DorcasSetup extends Command
 
                 if (!empty(getenv('ADMINISTRATOR_EMAIL'))) {
                     $data["trigger_event"] = 1;
+                    $this->info('Triggering Email Sending...');
                 }
 
                 $register = new AuthRegister();
