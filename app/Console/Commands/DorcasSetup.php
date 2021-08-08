@@ -158,18 +158,20 @@ class DorcasSetup extends Command
 
             //manually get client ids & secret in first password grant client record
             $client = DB::table("oauth_clients")->where('password_client', 1)->first();
-            $client_id = $client->client_id ?? "";
-            $client_secret = $client->client_secret ?? "";
+            $client_id = $client->id;
+            $client_secret = $client->secret;
 
-            $this->info(count((array)$setup) . ' ID: ' . $client_id . ", Secret: " . $client_secret);
+            //$this->info(' ID: ' . $client_id . ", Secret: " . $client_secret);
+
+            $password = \Illuminate\Support\Str::random(10);
 
             $data = [
                 "firstname" => "Admin",
                 "lastname" => "User",
                 "email" => "demo@dorcas.io",
                 "installer" => "true",
-                "domain" => "",
-                "password" => "",
+                "domain" => getenv('DORCAS_BASE_DOMAIN'),
+                "password" => $password,
                 "company" => "Demo",
                 "phone" => "08012345678",
                 "feature_select" => "all",
