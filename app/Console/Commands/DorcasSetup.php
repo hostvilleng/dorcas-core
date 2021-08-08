@@ -59,8 +59,8 @@ class DorcasSetup extends Command
         $databaseHub = getenv('DB_HUB_DATABASE');
 
 
-        $firstTimeCore = $this->checkDB($database);
-        $firstTimeHub = $this->checkDB($databaseHub);
+        $firstTimeCore = $this->checkDB("mysql", $database);
+        $firstTimeHub = $this->checkDB("hub_mysql", $databaseHub);
 
 
         if ($firstTimeHub) {
@@ -301,15 +301,20 @@ class DorcasSetup extends Command
     }
 
 
-    public function checkDB($dbName)
+    public function checkDB($dbConnection, $dbName)
     {
-         $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME =  ?";
-         $db = DB::select($query, [$dbName]);
-         if (empty($db)) {
-             return true;
-         } else {
-             return false;
-         }
+        //  $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME =  ?";
+        //  $db = DB::select($query, [$dbName]);
+        //  if (empty($db)) {
+        //      return true;
+        //  } else {
+        //      return false;
+        //  }
+        if(DB::connection()->getDatabaseName()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 
