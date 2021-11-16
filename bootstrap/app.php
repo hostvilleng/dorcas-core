@@ -2,13 +2,19 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+//use Illuminate\Support\Facades\Session;
+
 // try {
 //     (new Dotenv\Dotenv(__DIR__ . '/../'))->load();
 // } catch (Dotenv\Exception\InvalidPathException $e) {
 //     //
 // }
 
+$dorcasENV = ".env"; // $_SESSION['dorcasENV'] ?? '.env'; // session('dorcasENV', '.env');
+//$dorcasENV = Session::get('dorcasENV', '.env');
+
 try {
+    //(Dotenv\Dotenv::create(__DIR__ . '/../', $dorcasENV))->load();
     (Dotenv\Dotenv::create(__DIR__ . '/../'))->load();
 } catch (Dotenv\Exception\InvalidPathException $e) {
     //
@@ -165,14 +171,11 @@ $app->register(App\Providers\EventServiceProvider::class);
 $app->register(\Illuminate\Filesystem\FilesystemServiceProvider::class);
 $app->register(Laravel\Passport\PassportServiceProvider::class);
 $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
-$app->register(\Vluzrmos\Tinker\TinkerServiceProvider::class);
-$app->register(Laravel\Scout\ScoutServiceProvider::class);
 $app->register(\Illuminate\Mail\MailServiceProvider::class);
 $app->register(\Illuminate\Notifications\NotificationServiceProvider::class);
 $app->register(\Barryvdh\Snappy\LumenServiceProvider::class);
 $app->register(\Fedeisas\LaravelMailCssInliner\LaravelMailCssInlinerServiceProvider::class);
 $app->register(\Spatie\Permission\PermissionServiceProvider::class);
-$app->register(Orumad\ConfigCache\ServiceProviders\ConfigCacheServiceProvider::class);
 //$app->register(\Illuminate\Redis\RedisServiceProvider::class);
 
 //$app->register(\Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class);

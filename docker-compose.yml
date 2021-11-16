@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  dorcas_base_core:
+    container_name: dorcas_base_core
+    build:
+      context: ./
+      args:
+        - user=olawoye
+        - uid=1000
+    working_dir: /var/www/dorcas-core/
+    env_file:
+      - .env
+    depends_on:
+      - dorcas_base_core_mysql
+    volumes:
+      - "./:/var/www/dorcas-core"
+    restart: unless-stopped
+    networks:
+      - dorcas_base
+
+
+  dorcas_base_core_web:
+    container_name: dorcas_base_core_web
+    restart: unless-stopped
+    image: nginx:1.17-alpine
+    ports:
+      - "18031:80"
+    depends_on:
+      - dorcas_base_core
+    volumes:
+      - ./:/var/www/dorcas-core
+      - ./nginx/core.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - dorcas_base
+
+  dorcas_base_core_mysql:
+    container_name: dorcas_base_core_mysql
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    ports:
+      - "18032:3306"
+    volumes:
+      - dorcas_base_core_database:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=Jns3jSHl1Ak
+      - SERVICE_NAME=dorcas_base_core_mysql
+    networks:
+      - dorcas_base
+
+volumes:
+  dorcas_base_core_database:
+    driver: local
+
+
+networks:
+  dorcas_base:
+    name: dorcas_base_network
+    driver: bridge

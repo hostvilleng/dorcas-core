@@ -11,7 +11,6 @@ use App\Jobs\Finance\TaxRun;
 use App\Jobs\Invoicing\CheckInvoiceReminder;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
-use Laravelista\LumenVendorPublish\VendorPublishCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -21,7 +20,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        VendorPublishCommand::class,
         \App\Console\Commands\Setup\ImportCountries::class,
         \App\Console\Commands\Setup\ImportStates::class,
         \App\Console\Commands\Setup\RolesAndPermissions::class,

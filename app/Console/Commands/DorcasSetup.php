@@ -11,6 +11,7 @@ use App\Http\Controllers\Setup\Init as AuthInit;
 use App\Http\Controllers\Auth\Register as AuthRegister;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class DorcasSetup extends Command
 {
@@ -19,7 +20,7 @@ class DorcasSetup extends Command
      *
      * @var string
      */
-    protected $signature = 'dorcas:setup {--database=}';
+    protected $signature = 'dorcas:setup {--database=} {--preserve=}';
 
     /**
      * The console command description.
@@ -60,6 +61,7 @@ class DorcasSetup extends Command
         $database = getenv('DB_DATABASE');
         $databaseHub = getenv('DB_HUB_DATABASE');
 
+        $preserveDB = $this->option('preserve') ?? false;
 
         if (!$databaseHub) {
             $this->info('Skipping creation of database as env(DB_HUB_DATABASE) is empty');
@@ -75,12 +77,12 @@ class DorcasSetup extends Command
         $firstTimeHub = $this->checkDB("HUB", "hub_mysql", $databaseHub);
 
 
-        if ($firstTimeHub) {
+        if ($firstTimeHub || !$preserveDB) {
 
-            $this->info('Checking / Creating HUB Database');
+            $this->info('Checking / Creating HUB Database via ' . env('DB_HUB_HOST'));
 
             try {
-                $conn = mysqli_connect(getenv('DB_HUB_HOST'), getenv('DB_HUB_USERNAME'), getenv('DB_HUB_PASSWORD'));
+                $conn = mysqli_connect(env('DB_HUB_HOST'), env('DB_HUB_USERNAME'), env('DB_HUB_PASSWORD'));
 
                 if (!$conn) {
                     die("Connection to HUB failed: " . mysqli_connect_error());
@@ -110,7 +112,7 @@ class DorcasSetup extends Command
                     throw new FileNotFoundException('Could not find the hub.sql database file at: '.$filename);
                 }
                 if (!is_readable($filename)) {
-                    throw new FileException('The core.sql ('.$filename.') file is not readable by the process.');
+                    throw new FileException('The hub.sql ('.$filename.') file is not readable by the process.');
                 }
 
 
@@ -161,7 +163,7 @@ class DorcasSetup extends Command
 
         }
 
-        if ($firstTimeCore) {
+        if ($firstTimeCore || !$preserveDB) {
         
             $this->info('Checking / Creating CORE Database');
 
@@ -264,7 +266,7 @@ class DorcasSetup extends Command
                 $data = [
                     "firstname" => "Admin",
                     "lastname" => "User",
-                    "email" => "demo@dorcas.io",
+                    "email" => getenv('ADMINISTRATOR_EMAIL'),
                     "installer" => "true",
                     "domain" => getenv('DORCAS_BASE_DOMAIN'),
                     "password" => $password,
