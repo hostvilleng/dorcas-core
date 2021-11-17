@@ -287,7 +287,7 @@ class DorcasSetup extends Command
                 $fractal = new \League\Fractal\Manager;
                 $user = $register->register($request, $fractal);
 
-                $this->info('Username' . $data["email"] . " & password: " . $password);
+                $this->info('Username: ' . $data["email"] . " & password: " . $password);
 
 
 
