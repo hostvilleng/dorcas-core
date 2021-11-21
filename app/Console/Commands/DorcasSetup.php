@@ -20,7 +20,7 @@ class DorcasSetup extends Command
      *
      * @var string
      */
-    protected $signature = 'dorcas:setup {--database=} {--preserve=}';
+    protected $signature = 'dorcas:setup {--database=} {--preserve} {--reset}';
 
     /**
      * The console command description.
@@ -63,6 +63,8 @@ class DorcasSetup extends Command
 
         $preserveDB = $this->option('preserve') ?? false;
 
+        $resetDB = $this->option('reset') ?? false;
+
         if (!$databaseHub) {
             $this->info('Skipping creation of database as env(DB_HUB_DATABASE) is empty');
             return;
@@ -71,6 +73,51 @@ class DorcasSetup extends Command
         if (!$database) {
             $this->info('Skipping creation of database as env(DB_DATABASE) is empty');
             return;
+        }
+
+        if ($resetDB) {
+            $this->info('Deleting Databases...');
+
+            try {
+                $conn = mysqli_connect(env('DB_HUB_HOST'), env('DB_HUB_USERNAME'), env('DB_HUB_PASSWORD'));
+
+                if (!$conn) {
+                    die("Connection to HUB failed: " . mysqli_connect_error());
+                }
+
+                $sql = "DROP DATABASE `" . $databaseHub . "`";
+                if (mysqli_query($conn, $sql)) {
+                    $this->info(sprintf('Successfully DELETED %s database', $databaseHub));
+                } else {
+                    $this->error(sprintf('Error deleting %s database, %s', $databaseHub, mysqli_error($conn)));
+                }
+                
+                mysqli_close($conn);
+
+            } catch (Exception $exception) {
+                $this->error(sprintf('Failed to delete %s database, %s', $database, $exception->getMessage()));
+            }
+
+            try {
+                $conn = mysqli_connect(env('DB_HOST'), env('DB_USERNAME'), env('DB_PASSWORD'));
+
+                if (!$conn) {
+                    die("Connection to CORE failed: " . mysqli_connect_error());
+                }
+
+                $sql = "DROP DATABASE `" . $database . "`";
+                if (mysqli_query($conn, $sql)) {
+                    $this->info(sprintf('Successfully DELETED %s database', $database));
+                } else {
+                    $this->error(sprintf('Error deleting %s database, %s', $database, mysqli_error($conn)));
+                }
+                
+                mysqli_close($conn);
+
+            } catch (Exception $exception) {
+                $this->error(sprintf('Failed to delete %s database, %s', $database, $exception->getMessage()));
+            }
+
         }
 
         $firstTimeCore = $this->checkDB("CORE", "mysql", $database);
