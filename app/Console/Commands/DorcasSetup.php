@@ -20,7 +20,7 @@ class DorcasSetup extends Command
      *
      * @var string
      */
-    protected $signature = 'dorcas:setup {--database=} {--preserve} {--reset}';
+    protected $signature = 'dorcas:setup {--database=} {--repeat} {--reset}';
 
     /**
      * The console command description.
@@ -61,7 +61,7 @@ class DorcasSetup extends Command
         $database = getenv('DB_DATABASE');
         $databaseHub = getenv('DB_HUB_DATABASE');
 
-        $preserveDB = $this->option('preserve') ?? false;
+        $repeatSetup = $this->option('repeat') ?? false;
 
         $resetDB = $this->option('reset') ?? false;
 
@@ -124,7 +124,7 @@ class DorcasSetup extends Command
         $firstTimeHub = $this->checkDB("HUB", "hub_mysql", $databaseHub);
 
 
-        if ($firstTimeHub || !$preserveDB) {
+        if ($firstTimeHub || $repeatSetup) {
 
             $this->info('Checking / Creating HUB Database via ' . env('DB_HUB_HOST'));
 
@@ -210,7 +210,7 @@ class DorcasSetup extends Command
 
         }
 
-        if ($firstTimeCore || !$preserveDB) {
+        if ($firstTimeCore || $repeatSetup) {
         
             $this->info('Checking / Creating CORE Database');
 
