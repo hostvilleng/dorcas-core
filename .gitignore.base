@@ -1,0 +1,26 @@
+
+# PHP Specific Files
+vendor/
+
+
+# Laravel Specific Files
+/public/uploads
+#/storage/oauth-*
+storage/logs/*
+composer-dev.txt
+composer-live.txt
+composer-live.json
+composer-dev.json
+
+public/storage
+public/hot
+storage/*.key
+.env.*.php
+.env.php
+.env
+.env.*
+
+.DS_Store
+.DS_Store*
+
+# Dorcas Specific Files
