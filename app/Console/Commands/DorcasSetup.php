@@ -329,6 +329,13 @@ class DorcasSetup extends Command
                     $this->info('Triggering Email Sending...');
                 }
 
+                // Create Partner Account if (Community/Enterprise/Cloud Editions)
+                if ( env("DORCAS_EDITION", "business") !== "business" ) {
+                    // create partner account
+                    
+                }
+
+
                 $register = new AuthRegister();
                 $request = new \Illuminate\Http\Request($data);
                 $fractal = new \League\Fractal\Manager;
