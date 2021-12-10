@@ -37,7 +37,7 @@ Route::get('/connection', function () {
         DB::connection()->getPdo();
         echo "Connected successfully to: " . DB::connection()->getDatabaseName();
     } catch (\Exception $e) {
-        die("Could not connect to the database. Please check your configuration. error:" . $e );
+        die("Could not connect to the database (".DB::connection()->getDatabaseName()."). Please check your configuration. error:" . $e );
     }
 
     //return view('welcome');

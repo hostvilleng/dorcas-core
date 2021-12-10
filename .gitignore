@@ -4,6 +4,7 @@ vendor/
 
 
 # Laravel Specific Files
+/app/storage/
 /public/uploads
 #/storage/oauth-*
 storage/logs/*

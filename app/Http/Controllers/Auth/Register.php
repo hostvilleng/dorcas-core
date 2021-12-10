@@ -88,9 +88,8 @@ class Register extends Controller
         
         $feature_selected = $request->input('feature_select');
 
-        //$feature_converted = !empty($feature_selected) ? $feature_modules[$feature_selected] : [];
-
-        $feature_converted = []; //force there to be no modules
+        $feature_converted = !empty($feature_selected) ? $feature_modules[$feature_selected] : [];
+        //$feature_converted = []; //force there to be no modules
 
         $module = array_merge($feature_converted,$base_modules);
         
@@ -127,6 +126,7 @@ class Register extends Controller
             $configurations = [];
             $configurations['module_preference'] = $module;
             $configurations['ui_setup'] = collect([$module])->all();
+            $configurations['first_time'] = 0;
             $companyName = $request->has('company') ? $request->company : $request->firstname .' '.$request->lastname;
             $company = new Company([
                 'name' => $companyName,
