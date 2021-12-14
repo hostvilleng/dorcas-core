@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use App\Http\Controllers\Setup\Init as AuthInit;
 use App\Http\Controllers\Auth\Register as AuthRegister;
+//use Ramsey\Uuid\Uuid;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -20,7 +21,7 @@ class DorcasSetup extends Command
      *
      * @var string
      */
-    protected $signature = 'dorcas:setup {--database=} {--repeat} {--reset}';
+    protected $signature = 'dorcas:setup {--database=} {--repeat} {--reset} {--partner=}';
 
     /**
      * The console command description.
@@ -60,6 +61,8 @@ class DorcasSetup extends Command
         $database_old = $this->option('database');
         $database = getenv('DB_DATABASE');
         $databaseHub = getenv('DB_HUB_DATABASE');
+
+        $partnerName = $this->option('partner') ?? env('DORCAS_PARTNER_NAME', 'Sample Community');
 
         $repeatSetup = $this->option('repeat') ?? false;
 
@@ -324,15 +327,42 @@ class DorcasSetup extends Command
                     "client_secret" => $client_secret,
                 ];
 
+                // Create Partner Account if (Community/Enterprise/Cloud Editions)
+                if ( env("DORCAS_EDITION", "business") !== "business" ) {
+                    $this->info('Creating Partner Account for ' . $partnerName);
+                    // create partner account
+
+                    $partnerUUID = (string) \Illuminate\Support\Str::uuid(); //(string) Str::orderedUuid(); //Uuid::uuid1()->toString();
+                    // $partnerSlug = str_slug($partnerName);
+                    $partnerNameArray = explode(" ", $partnerName);
+                    $partnerSlug = strtolower($partnerNameArray[0]);
+
+                    $partnerSlug = env('DORCAS_PARTNER_SLUG', $partnerSlug);
+
+                    $partnerLogo = env('DORCAS_PARTNER_LOGO', 'https://dorcas-s3.s3.eu-west-1.amazonaws.com/images/logo_main.png');
+
+                    $db = DB::connection('mysql');
+                    DB::transaction(function () use($db, $partnerUUID, $partnerName, $partnerSlug, $partnerLogo) {
+                         
+                         $partner_id = $db->table("partners")->insertGetId([
+                          'uuid' => $partnerUUID,
+                          'name' => $partnerName,
+                          'slug' => $partnerSlug,
+                          'logo_url' => $partnerLogo,
+                          //'extra_data' => [],
+                          'is_verified' => 1
+                        ]);
+                    });
+
+                    //add partner details to setup
+                    $data["partner"] = $partnerUUID;
+
+                }
+
+
                 if (!empty(getenv('ADMINISTRATOR_EMAIL'))) {
                     $data["trigger_event"] = 1;
                     $this->info('Triggering Email Sending...');
-                }
-
-                // Create Partner Account if (Community/Enterprise/Cloud Editions)
-                if ( env("DORCAS_EDITION", "business") !== "business" ) {
-                    // create partner account
-                    
                 }
 
 
