@@ -86,7 +86,8 @@ class DomainIssuanceTransformer extends TransformerAbstract
             'uuid' => 1,
             'domainable_type' => $issuance->domainable_type,
             'domainable_id' => $issuance->domainable_id,
-            'domain' => app()->environment() === 'production' ? 'dorcas.io' : 'dorcas.local',
+            //'domain' => app()->environment() === 'production' ? 'dorcas.io' : 'dorcas.local',
+            'domain' => in_array(config('dorcas.edition','business'), ['community', 'enterprise']) ? env("DORCAS_PARENT_DOMAIN", 'dorcas.default') : env("DORCAS_BASE_DOMAIN", 'dorcas.default'),
             'configuration_json' => [],
             'updated_at' => Carbon::now(),
             'created_at' => Carbon::now()

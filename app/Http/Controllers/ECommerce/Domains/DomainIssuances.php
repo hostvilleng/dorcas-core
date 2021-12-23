@@ -24,6 +24,7 @@ class DomainIssuances extends Controller
      * @var array
      */
     protected $reservedSubDomains = [
+        'abc',
         'developers',
         'static',
         'cdn',

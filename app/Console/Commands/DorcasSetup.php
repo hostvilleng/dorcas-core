@@ -328,7 +328,8 @@ class DorcasSetup extends Command
                 ];
 
                 // Create Partner Account if (Community/Enterprise/Cloud Editions)
-                if ( env("DORCAS_EDITION", "business") !== "business" ) {
+                if ( env("DORCAS_EDITION", "business") == "community" || env("DORCAS_EDITION", "business") == "enterprise" ) {
+                    
                     $this->info('Creating Partner Account for ' . $partnerName);
                     // create partner account
 
@@ -355,7 +356,8 @@ class DorcasSetup extends Command
                     });
 
                     //add partner details to setup
-                    $data["partner"] = $partnerUUID;
+                    //$data["partner"] = $partnerUUID;
+                    $data["is_partner"] = 1;
 
                 }
 

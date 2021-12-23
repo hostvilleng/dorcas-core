@@ -56,6 +56,10 @@ class Register extends Controller
           $this->validate($request, ['domain' => 'required|max:100']);
         }
 
+        if ( env("DORCAS_EDITION", "business") == "community" || env("DORCAS_EDITION", "business") == "enterprise") {
+          $this->validate($request, ['domain' => 'required|max:100']);
+        }
+
 
         # validate the request
         validate_api_client($request);
@@ -150,6 +154,8 @@ class Register extends Controller
                 'partner_id' => empty($partner) ? null : $partner->id
             ]);
 
+            # we need to create the user
+
             if ($request->input('installer') === true || $request->input('installer') === "true") {
               $this->registerHubUser($company,$user);
 
@@ -157,7 +163,11 @@ class Register extends Controller
               $this->registerBusinessDomain($company,$domain);
             }
 
-            # we need to create the user
+            if ( in_array( env("DORCAS_EDITION", "business"), ["community", "enterprise"] ) ) {
+              $domain = $request->input('domain'); //verify later
+              $this->registerBusinessDomain($company,$domain);
+            }
+            # we need to create the business domain
         });
 
 
