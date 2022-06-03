@@ -1,0 +1,113 @@
+name: VisionOpticalCRMBackend_DeployToStaging
+on:
+  push:
+    branches: [ dev-ola ]
+jobs:
+  deploy-eos-to-ec2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Add public IP to AWS security group
+        uses: sohelamin/aws-security-group-add-ip-action@master
+        with:
+          aws-access-key-id: ${{secrets.AWS_ACCESS_KEY}}
+          aws-secret-access-key: ${{secrets.AWS_ACCESS_SECRET}}
+          aws-region:  ${{secrets.AWS_REGION}}
+          aws-security-group-id: ${{secrets.AWS_SG}}
+          protocol: 'tcp'
+          description: 'GitHub Action Access (Staging)'
+      - name: Clear Out VisionOpticalCRMHub Directory
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.HOST}}
+          username: ${{secrets.USER}}
+          key: ${{secrets.KEY}}
+          port: '22'
+          script: |
+            sudo rm -rf ${{ secrets.PATH }}/*
+            sudo mkdir ${{secrets.PATH}}
+            sudo chown -R $USER:www-data  ${{secrets.PATH}}
+      - name: Copy VisionOpticalCRMHubFiles
+        uses: appleboy/scp-action@master
+        with:
+          host:  ${{secrets.HOST}}
+          username: ${{secrets.USER}}
+          key: ${{secrets.KEY}}
+          port: '22'
+          overwrite: true
+          source: "./*"
+          target: ${{ secrets.PATH }}
+          tar_tmp_path: "/var/www/github-tmp"
+      - name: Setup and Configure Laravel Installation
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.HOST}}
+          username: ${{secrets.USER}}
+          key:  ${{secrets.KEY}}
+          port: '22'
+          script: |
+            cd ${{ secrets.PATH }}/
+            touch .env
+
+            # Dorcas Hub (Business) ENV
+
+            INSTALLED_HUB=false
+            # Base Laravel Settings
+            echo   INSTALLED_HUB = false >> .env
+            echo APP_NAME=DorcasCoreBase >> .env
+            echo APP_ENV=local >> .env
+            echo APP_KEY=6J69gbI7jAIinBXU2D9TXTnLOF2cMe8j >> .env
+            echo APP_DEBUG=true >> .env
+            echo APP_LOG_LEVEL=debug >> .env
+            echo APP_URL=https://core-crm.visionenhancingsolutions.app >> .env
+            echo  APP_URL_STATIC=https://core-crm.visionenhancingsolutions.app >> .env
+            echo APP_SITE_URL=https://core-crm.visionenhancingsolutions.app >> .env
+
+            # Base Dorcas Settings
+           echo DORCAS_EDITION=community >> .env
+           echo  DORCAS_HOST_API=https://core-crm.visionenhancingsolutions.app >> .env
+           echo  DORCAS_HOST_HUB=https://crm.visionenhancingsolutions.app >> .env
+
+
+            # DORCAS_BASE_DOMAIN refers to the primary installation domain (usually hub domain)
+            echo DORCAS_BASE_DOMAIN=crm.visionenhancingsolutions.app >> .env
+            echo  ADMINISTRATOR_EMAIL=ifeoluwa.olawoye@gmail.com >> .env
+            echo  DEPLOY_ENV=staging >> .env
+            echo  DORCAS_CURL_SSL_VERIFY=false >> .env
+            echo  STANDARD_HOST=core-crm.visionenhancingsolutions.app >> .env
+            echo DORCAS_BASE_URL=https://core-crm.visionenhancingsolutions.app >> .env
+            echo DORCAS_ENV=production >> .env
+
+            # Database Settings
+            echo DB_CONNECTION = mysql >> .env
+            echo  DB_PORT=3306 >> .env
+            echo DB_DATABASE=${{secrets.DB_NAME}} >> .env
+            echo  DB_USERNAME = ${{secrets.DB_USER}} >> .env
+            echo  DB_PASSWORD=${{secrets.DB_PASSWORD}} >> .env
+
+
+            set -e
+
+            echo "Deployment started ..."
+
+
+            composer update
+
+            php artisan optimize:clear
+
+            sudo chown -R $USER:www-data ${{ secrets.PATH }}/storage/
+            sudo chown -R $USER:www-data ${{ secrets.PATH}}/bootstrap/cache
+
+            sudo chmod -R 775 ${{ secrets.PATH }}/storage/
+            sudo chmod -R 775 ${{ secrets.PATH }}/bootstrap/cache
+
+            sudo chmod -R u=rwx,g=rwx,o=rw ${{ secrets.PATH }}/storage/logs
+            touch ${{ secrets.PATH }}/storage/logs/lumen.log && > ${{ secrets.PATH }}/storage/logs/lumen.log
+
+            sudo chown $USER:www-data ${{ secrets.PATH}}/storage/logs/lumen.log
+            sudo chmod u=rwx,g=rw,o=rw ${{ secrets.PATH}}/storage/logs/lumen.log
+            sudo chmod u=rwx,g=rx,o=x ${{ secrets.PATH }}/artisan
+            find "${{ secrets.PATH }}" -type f -name '*.php' -exec chmod 644 {} \;
+            # php artisan migrate --force
+
+            echo "Deployment finished!"
