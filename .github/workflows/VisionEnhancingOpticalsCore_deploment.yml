@@ -47,44 +47,44 @@ jobs:
           port: '22'
           script: |
             cd /var/www/core-crm.visionenhancingsolutions.app/public/
-        touch .env
+            touch .env
 
-        # Dorcas Hub (Business) ENV
+            # Dorcas Hub (Business) ENV
+    
+            INSTALLED_HUB=false
+            # Base Laravel Settings
+            echo   INSTALLED_HUB = false >> .env
+            echo APP_NAME=DorcasCoreBase >> .env
+            echo APP_ENV=local >> .env
+            echo APP_KEY=6J69gbI7jAIinBXU2D9TXTnLOF2cMe8j >> .env
+            echo APP_DEBUG=true >> .env
+            echo APP_LOG_LEVEL=debug >> .env
+            echo APP_URL=https://core-crm.visionenhancingsolutions.app >> .env
+            echo  APP_URL_STATIC=https://core-crm.visionenhancingsolutions.app >> .env
+            echo APP_SITE_URL=https://core-crm.visionenhancingsolutions.app >> .env
 
-        INSTALLED_HUB=false
-        # Base Laravel Settings
-        echo   INSTALLED_HUB = false >> .env
-        echo APP_NAME=DorcasCoreBase >> .env
-        echo APP_ENV=local >> .env
-        echo APP_KEY=6J69gbI7jAIinBXU2D9TXTnLOF2cMe8j >> .env
-        echo APP_DEBUG=true >> .env
-        echo APP_LOG_LEVEL=debug >> .env
-        echo APP_URL=https://core-crm.visionenhancingsolutions.app >> .env
-        echo  APP_URL_STATIC=https://core-crm.visionenhancingsolutions.app >> .env
-        echo APP_SITE_URL=https://core-crm.visionenhancingsolutions.app >> .env
-
-        # Base Dorcas Settings
-        echo DORCAS_EDITION=community >> .env
-        echo  DORCAS_HOST_API=https://core-crm.visionenhancingsolutions.app >> .env
-        echo  DORCAS_HOST_HUB=https://crm.visionenhancingsolutions.app >> .env
+            # Base Dorcas Settings
+            echo DORCAS_EDITION=community >> .env
+            echo  DORCAS_HOST_API=https://core-crm.visionenhancingsolutions.app >> .env
+            echo  DORCAS_HOST_HUB=https://crm.visionenhancingsolutions.app >> .env
 
 
-        # DORCAS_BASE_DOMAIN refers to the primary installation domain (usually hub domain)
-        echo DORCAS_BASE_DOMAIN=crm.visionenhancingsolutions.app >> .env
-        echo  ADMINISTRATOR_EMAIL=ifeoluwa.olawoye@gmail.com >> .env
-        echo  DEPLOY_ENV=staging >> .env
-        echo  DORCAS_CURL_SSL_VERIFY=false >> .env
-        echo  STANDARD_HOST=core-crm.visionenhancingsolutions.app >> .env
-        echo DORCAS_BASE_URL=https://core-crm.visionenhancingsolutions.app >> .env
-        echo DORCAS_ENV=production >> .env
+            # DORCAS_BASE_DOMAIN refers to the primary installation domain (usually hub domain)
+            echo DORCAS_BASE_DOMAIN=crm.visionenhancingsolutions.app >> .env
+            echo  ADMINISTRATOR_EMAIL=ifeoluwa.olawoye@gmail.com >> .env
+            echo  DEPLOY_ENV=staging >> .env
+            echo  DORCAS_CURL_SSL_VERIFY=false >> .env
+            echo  STANDARD_HOST=core-crm.visionenhancingsolutions.app >> .env
+            echo DORCAS_BASE_URL=https://core-crm.visionenhancingsolutions.app >> .env
+            echo DORCAS_ENV=production >> .env
 
-        # Database Settings
-        echo DB_CONNECTION = mysql >> .env
-        echo  DB_PORT=3306 >> .env
-        echo DB_DATABASE=${{secrets.DB_NAME}} >> .env
-        echo  DB_USERNAME = ${{secrets.DB_USER}} >> .env
-        echo  DB_PASSWORD=${{secrets.DB_PASSWORD}} >> .env
-        set -e
+            # Database Settings
+            echo DB_CONNECTION = mysql >> .env
+            echo  DB_PORT=3306 >> .env
+            echo DB_DATABASE=${{secrets.DB_NAME}} >> .env
+            echo  DB_USERNAME = ${{secrets.DB_USER}} >> .env
+            echo  DB_PASSWORD=${{secrets.DB_PASSWORD}} >> .env
+            set -e
 
             echo "Deployment started ..."
 
