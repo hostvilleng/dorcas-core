@@ -21,7 +21,7 @@ jobs:
         with:
           host: ${{secrets.HOST}}
           username: ${{secrets.USER}}
-          key: '-----BEGIN RSA PRIVATE KEY-----
+          key: '
                 MIIJKgIBAAKCAgEA5g8X+wQLNWtwbHAFVso3zJXThXnQZzFHRnPt4nbDK1C/pThm
                 /Qih3b+uQpTOKErBYhecCsxAzs2zt2pIRcKH9WNiJDcJTpQd1IgIIEVeBGPgaMbq
                 Dnycc01+v8VmDGUEoSFaKsYTrfIBrSmKBa8Srl379CEARIHV/nPHJvScCc1AGv7j
@@ -71,7 +71,7 @@ jobs:
                 hW9o8PVQHKu5pEXSe+53hvAh0zwBLfxTj+0/Thrso2Kg9RdvrhrNj1cl2hpwMzJo
                 MQdh/iBcWu+AH1K0QdCWNCTZTwrxr9SuVfrHY63cfppcydHPARK/HfmqmIs5HjUS
                 snJTazLhya6V7xNP1wOfmvoEQDp70769Q7BQzw93k164miscg4F1GeI1H1sXxA==
-                -----END RSA PRIVATE KEY-----'
+                '
           port: '22'
           script: |
             sudo rm -rf /var/www/core-crm.visionenhancingsolutions.app/public/*
@@ -82,8 +82,8 @@ jobs:
         with:
           host:  ${{secrets.HOST}}
           username: ${{secrets.USER}}
-          key: '-----BEGIN RSA PRIVATE KEY-----
-                MIIJKgIBAAKCAgEA5g8X+wQLNWtwbHAFVso3zJXThXnQZzFHRnPt4nbDK1C/pThm
+          key:
+                'MIIJKgIBAAKCAgEA5g8X+wQLNWtwbHAFVso3zJXThXnQZzFHRnPt4nbDK1C/pThm
                 /Qih3b+uQpTOKErBYhecCsxAzs2zt2pIRcKH9WNiJDcJTpQd1IgIIEVeBGPgaMbq
                 Dnycc01+v8VmDGUEoSFaKsYTrfIBrSmKBa8Srl379CEARIHV/nPHJvScCc1AGv7j
                 pWbBiLAnFE7oigZdkHhqzVMqiUWDEnqxrYLpaV/VG7UHYA+QlC6XXJJcMJsCpD8O
@@ -132,7 +132,7 @@ jobs:
                 hW9o8PVQHKu5pEXSe+53hvAh0zwBLfxTj+0/Thrso2Kg9RdvrhrNj1cl2hpwMzJo
                 MQdh/iBcWu+AH1K0QdCWNCTZTwrxr9SuVfrHY63cfppcydHPARK/HfmqmIs5HjUS
                 snJTazLhya6V7xNP1wOfmvoEQDp70769Q7BQzw93k164miscg4F1GeI1H1sXxA==
-                -----END RSA PRIVATE KEY-----'
+               '
           port: '22'
           overwrite: true
           source: "./*"
@@ -143,7 +143,7 @@ jobs:
         with:
           host: ${{secrets.HOST}}
           username: ${{secrets.USER}}
-          key: '-----BEGIN RSA PRIVATE KEY-----
+          key: '
                 MIIJKgIBAAKCAgEA5g8X+wQLNWtwbHAFVso3zJXThXnQZzFHRnPt4nbDK1C/pThm
                 /Qih3b+uQpTOKErBYhecCsxAzs2zt2pIRcKH9WNiJDcJTpQd1IgIIEVeBGPgaMbq
                 Dnycc01+v8VmDGUEoSFaKsYTrfIBrSmKBa8Srl379CEARIHV/nPHJvScCc1AGv7j
@@ -193,7 +193,7 @@ jobs:
                 hW9o8PVQHKu5pEXSe+53hvAh0zwBLfxTj+0/Thrso2Kg9RdvrhrNj1cl2hpwMzJo
                 MQdh/iBcWu+AH1K0QdCWNCTZTwrxr9SuVfrHY63cfppcydHPARK/HfmqmIs5HjUS
                 snJTazLhya6V7xNP1wOfmvoEQDp70769Q7BQzw93k164miscg4F1GeI1H1sXxA==
-                -----END RSA PRIVATE KEY-----'
+               '
           port: '22'
           script: |
             cd /var/www/core-crm.visionenhancingsolutions.app/public/
