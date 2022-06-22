@@ -1,0 +1,131 @@
+name: EDCMArketPlaceCore_DeployToStaging
+on:
+  push:
+    branches: [ dev-ola ]
+jobs:
+  deploy-eos-to-ec2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Add public IP to AWS security group
+        uses: sohelamin/aws-security-group-add-ip-action@master
+        with:
+          aws-access-key-id: ${{secrets.AWS_ACCESS_KEY}}
+          aws-secret-access-key: ${{secrets.AWS_ACCESS_SECRET}}
+          aws-region:  ${{secrets.AWS_REGION}}
+          aws-security-group-id: ${{secrets.AWS_SG}}
+          protocol: 'tcp'
+          description: 'GitHub Action Access (Staging)'
+      - name: Clear Out EDCMArketPlaceCOre Directory
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.HOST}}
+          username: ${{secrets.USER}}
+          key: ${{secrets.KEY}}
+          port: '22'
+          script: |
+            cd /var/www/core-portal.dorcas.io && sudo rm -rf ..?* .[!.]* *
+            cd ../../../
+            sudo rm -rf /var/www/core-portal.dorcas.io/*
+            sudo mkdir /var/www/core-portal.dorcas.io
+            sudo chown -R $USER:www-data  /var/www/core-portal.dorcas.io
+      - name: Copy EdcMarketPlaceCoreFiles
+        uses: appleboy/scp-action@master
+        with:
+          host:  ${{secrets.HOST}}
+          username: ${{secrets.USER}}
+          key: ${{secrets.KEY}}
+          port: '22'
+          overwrite: true
+          source: "./*"
+          target: /var/www/core-portal.dorcas.io
+          tar_tmp_path: "/var/www/github-tmp"
+      - name: Setup and Configure Laravel Installation
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.HOST}}
+          username: ${{secrets.USER}}
+          key:  ${{secrets.KEY}}
+          port: '22'
+          script: |
+            cd /var/www/core-portal.dorcas.io/
+            touch .env
+
+            # Dorcas Core (Business) ENV
+
+            echo INSTALLED_CORE=false >> .env
+
+            # Base Laravel Settings
+            echo APP_NAME=DorcasCoreBase >> .env
+            echo APP_ENV=local >> .env
+            echo APP_KEY=  >> .env
+            echo APP_DEBUG=true >> .env
+            echo APP_LOG_LEVEL=debug >> .env
+            echo APP_URL=https://core-portal.dorcas.io >> .env
+            echo APP_URL_STATIC=https://core-portal.dorcas.io >> .env
+            echo APP_SITE_URL=https://core-portal.dorcas.io >> .env
+
+
+            # Base Dorcas Settings
+            echo  DORCAS_EDITION=community >> .env
+            echo  DORCAS_HOST_API=https://core-portal.dorcas.io >> .env
+            echo  DORCAS_HOST_HUB=https://core-portal.dorcas.io >> .env
+
+
+            # DORCAS_BASE_DOMAIN refers to the primary installation domain (usually hub domain)
+            echo DORCAS_BASE_DOMAIN=portal.dorcas.io>> .env
+            echo ADMINISTRATOR_EMAIL=ifeoluwa.olawoye@gmail.com >> .env
+            echo DEPLOY_ENV=staging >> .env
+            echo DORCAS_CURL_SSL_VERIFY=false >> .env
+            echo STANDARD_HOST=core-portal.dorcas.io >> .env
+            echo DORCAS_BASE_URL=https://core-portal.dorcas.io >> .env
+            echo DORCAS_ENV=production >> .env
+
+            echo DORCAS_PARTNER_NAME="Sample-Community" >> .env
+            echo DORCAS_PARTNER_SLUG=community >> .env
+            echo DORCAS_PARTNER_LOGO="https://dorcas-s3.s3.eu-west-1.amazonaws.com/images/logo_main.png" >> .env
+            echo DORCAS_PARENT_DOMAIN="core-portal.dorcas.io" >> .env
+
+
+            # Database Settings
+            echo DB_HOST=${{secrets.DB_HOST}} >> .env
+            echo DB_CONNECTION=mysql >> .env
+            echo DB_PORT=3306 >> .env
+            echo DB_DATABASE="portal_core" >> .env
+            echo DB_USERNAME=${{secrets.DB_USER}} >> .env
+            echo DB_PASSWORD="${{secrets.DB_PASSWORD}}" >> .env
+
+            echo DB_HUB_HOST=${{secrets.DB_HOST}} >> .env
+            echo DB_HUB_PORT=3306 >> .env
+            echo DB_HUB_DATABASE=${{secrets.DB_NAME}} >> .env
+            echo DB_HUB_USERNAME=${{secrets.DB_USER}} >> .env
+            echo DB_HUB_PASSWORD="${{secrets.DB_PASSWORD}}" >> .env
+
+            # Other Laravel Settings
+
+            echo SESSION_DRIVER=file >> .env
+
+            cat .env
+
+            set -e
+
+            echo "Deployment started ..."
+
+            composer update
+
+            sudo chown -R $USER:www-data /var/www/core-portal.dorcas.io/storage/
+
+            sudo chmod -R 775 /var/www/core-portal.dorcas.io/storage/
+
+            sudo chmod -R u=rwx,g=rwx,o=rw /var/www/core-portal.dorcas.io/storage/logs
+            touch /var/www/core-portal.dorcas.io/storage/logs/lumen.log && > /var/www/core-portal.dorcas.io/storage/logs/lumen.log
+            sudo chown $USER:www-data /var/www/core-portal.dorcas.io/storage/logs/lumen.log
+            sudo chmod u=rwx,g=rw,o=rw /var/www/core-portal.dorcas.io/storage/logs/lumen.log
+            sudo chmod u=rwx,g=rx,o=x /var/www/core-portal.dorcas.io/artisan
+            find "/var/www/core-portal.dorcas.io/" -type f -name '*.php' -exec chmod 644 {} \;
+
+            php artisan dorcas:setup --repeat --reset
+
+            php artisan passport:install
+
+            echo "Deployment finished!"
