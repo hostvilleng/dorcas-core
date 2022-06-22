@@ -15,12 +15,15 @@ $dorcasENV = ".env"; // $_SESSION['dorcasENV'] ?? '.env'; // session('dorcasENV'
 
 try {
     //(Dotenv\Dotenv::create(__DIR__ . '/../', $dorcasENV))->load();
-    (Dotenv\Dotenv::create(__DIR__ . '/../'))->load();
+//    (Dotenv\Dotenv::create(__DIR__ . '/../'))->load();
+    (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
+        dirname(__DIR__)
+    ))->bootstrap();
 } catch (Dotenv\Exception\InvalidPathException $e) {
     //
 }
 
-
+date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -37,7 +40,15 @@ $app = new Laravel\Lumen\Application(
 );
 
 
+$app->singleton(
+    Illuminate\Contracts\Debug\ExceptionHandler::class,
+    App\Exceptions\Handler::class
+);
 
+$app->singleton(
+    Illuminate\Contracts\Console\Kernel::class,
+    App\Console\Kernel::class
+);
 
 $app->withFacades(true, [
     'Illuminate\Support\Facades\Notification' => 'Notification',
@@ -59,7 +70,7 @@ $app->alias('auth', 'Illuminate\Auth\AuthManager');
 
 $app->withEloquent();
 
-$app->instance('path.config', app()->basePath() . DIRECTORY_SEPARATOR . 'config'); 
+$app->instance('path.config', app()->basePath() . DIRECTORY_SEPARATOR . 'config');
 
 
 
